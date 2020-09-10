@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+*** GENERATED FROM project.xml - DO NOT EDIT  ***
+***         EDIT ../build.xml INSTEAD         ***
+
+For the purpose of easier reading the script
+is divided into following sections:
+
+  - initialization
+  - compilation
+  - jar
+  - execution
+  - debugging
+  - javadoc
+  - test compilation
+  - test execution
+  - test debugging
+  - applet
+  - cleanup
+
+        -->
+<project xmlns:j2seproject1="http://www.netbeans.org/ns/j2se-project/1" xmlns:j2seproject3="http://www.netbeans.org/ns/j2se-project/3" xmlns:jaxrpc="http://www.netbeans.org/ns/j2se-project/jax-rpc" basedir=".." default="default" name="TrafficLight-impl">
+    <fail message="Please build using Ant 1.8.0 or higher.">
+        <condition>
+            <not>
+                <antversion atleast="1.8.0"/>
+            </not>
+        </condition>
+    </fail>
+    <target depends="test,jar,javadoc" description="Build and test whole project." name="default"/>
+    <!-- 
+                ======================
+                INITIALIZATION SECTION 
+                ======================
+            -->
+    <target name="-pre-init">
+        <!-- Empty placeholder for easier customization. -->
+        <!-- You can override this target in the ../build.xml file. -->
+    </target>
+    <target depends="-pre-init" name="-init-private">
+        <property file="nbproject/private/config.properties"/>
+        <property file="nbproject/private/configs/${config}.properties"/>
+        <property file="nbproject/private/private.properties"/>
+    </target>
+    <target depends="-pre-init,-init-private" name="-init-user">
+        <property file="${user.properties.file}"/>
+        <!-- The two properties below are usually overridden -->
+        <!-- by the active platform. Just a fallback. -->
+        <property name="default.javac.source" value="1.4"/>
+        <property name="default.javac.target" value="1.4"/>
+    </target>
+    <target depends="-pre-init,-init-private,-init-user" name="-init-project">
+        <property file="nbproject/configs/${config}.properties"/>
+        <property file="nbproject/project.properties"/>
+    </target>
+    <target depends="-pre-init,-init-private,-init-user,-init-project,-init-macrodef-property" name="-do-init">
+        <property name="platform.java" value="${java.home}/bin/java"/>
+        <available file="${manifest.file}" property="manifest.available"/>
+        <condition property="splashscreen.available">
+            <and>
+                <not>
+                    <equals arg1="${application.splash}" arg2="" trim="true"/>
+                </not>
+                <available file="${application.splash}"/>
+            </and>
+        </condition>
+        <condition property="main.class.available">
+            <and>
+                <isset property="main.class"/>
+                <not>
+                    <equals arg1="${main.class}" arg2="" trim="true"/>
+                </not>
+            </and>
+        </condition>
+        <condition property="profile.available">
+            <and>
+                <isset property="javac.profile"/>
+                <length length="0" string="${javac.profile}" when="greater"/>
+                <matches pattern="1\.[89](\..*)?" string="${javac.source}"/>
+            </and>
+        </condition>
+        <condition property="do.archive">
+            <or>
+                <not>
+                    <istrue value="${jar.archive.disabled}"/>
+                </not>
+                <istrue value="${not.archive.disabled}"/>
+            </or>
+        </condition>
+        <condition property="do.mkdist">
+            <and>
+                <isset property="do.archive"/>
+                <isset property="libs.CopyLibs.classpath"/>
+                <not>
+                    <istrue value="${mkdist.disabled}"/>
+                </not>
+            </and>
+        </condition>
+        <condition property="do.archive+manifest.available">
+            <and>
+                <isset property="manifest.available"/>
+                <istrue value="${do.archive}"/>
+            </and>
+        </condition>
+        <condition property="do.archive+main.class.available">
+            <and>
+                <isset property="main.class.available"/>
+                <istrue value="${do.archive}"/>
+            </and>
+        </condition>
+        <condition property="do.archive+splashscreen.available">
+            <and>
+                <isset property="splashscreen.available"/>
+                <istrue value="${do.archive}"/>
+            </and>
+        </condition>
+        <condition property="do.archive+profile.available">
+            <and>
+                <isset property="profile.available"/>
+                <istrue value="${do.archive}"/>
+            </and>
+        </condition>
+        <condition property="have.tests">
+            <or>
+                <available file="${test.src.dir}"/>
+            </or>
+        </condition>
+        <condition property="have.sources">
+            <or>
+                <available file="${src.dir}"/>
+            </or>
+        </condition>
+        <condition property="netbeans.home+have.tests">
+            <and>
+                <isset property="netbeans.home"/>
+                <isset property="have.tests"/>
+            </and>
+        </condition>
+        <condition property="no.javadoc.preview">
+            <and>
+                <isset property="javadoc.preview"/>
+                <isfalse value="${javadoc.preview}"/>
+            </and>
+        </condition>
+        <property name="run.jvmargs" value=""/>
+        <property name="run.jvmargs.ide" value=""/>
+        <property name="javac.compilerargs" value=""/>
+        <property name="work.dir" value="${basedir}"/>
+        <condition property="no.deps">
+            <and>
+                <istrue value="${no.dependencies}"/>
+            </and>
+        </condition>
+        <property name="javac.debug" value="true"/>
+        <property name="javadoc.preview" value="true"/>
+        <property name="application.args" value=""/>
+        <property name="source.encoding" value="${file.encoding}"/>
+        <property name="runtime.encoding" value="${source.encoding}"/>
+        <condition property="javadoc.encoding.used" value="${javadoc.encoding}">
+            <and>
+                <isset property="javadoc.encoding"/>
+                <not>
+                    <equals arg1="${javadoc.encoding}" arg2=""/>
+                </not>
+            </and>
+        </condition>
+        <property name="javadoc.encoding.used" value="${source.encoding}"/>
+        <property name="includes" value="**"/>
+        <property name="excludes" value=""/>
+        <property name="do.depend" value="false"/>
+        <condition property="do.depend.true">
+            <istrue value="${do.depend}"/>
+        </condition>
+        <path id="endorsed.classpath.path" path="${endorsed.classpath}"/>
+        <condition else="" property="endorsed.classpath.cmd.line.arg" value="-Xbootclasspath/p:'${toString:endorsed.classpath.path}'">
+            <and>
+                <isset property="endorsed.classpath"/>
+                <not>
+                    <equals arg1="${endorsed.classpath}" arg2="" trim="true"/>
+                </not>
+            </and>
+        </condition>
+        <condition else="" property="javac.profile.cmd.line.arg" value="-profile ${javac.profile}">
+            <isset property="profile.available"/>
+        </condition>
+        <condition else="false" property="jdkBug6558476">
+            <and>
+                <matches pattern="1\.[56]" string="${java.specification.version}"/>
+                <not>
+                    <os family="unix"/>
+                </not>
+            </and>
+        </condition>
+        <condition else="false" property="javac.fork">
+            <or>
+                <istrue value="${jdkBug6558476}"/>
+                <istrue value="${javac.external.vm}"/>
+            </or>
+        </condition>
+        <property name="jar.index" value="false"/>
+        <property name="jar.index.metainf" value="${jar.index}"/>
+        <property name="copylibs.rebase" value="true"/>
+        <available file="${meta.inf.dir}/persistence.xml" property="has.persistence.xml"/>
+        <condition property="junit.available">
+            <or>
+                <available classname="org.junit.Test" classpath="${run.test.classpath}"/>
+                <available classname="junit.framework.Test" classpath="${run.test.classpath}"/>
+            </or>
+        </condition>
+        <condition property="testng.available">
+            <available classname="org.testng.annotations.Test" classpath="${run.test.classpath}"/>
+        </condition>
+        <condition property="junit+testng.available">
+            <and>
+                <istrue value="${junit.available}"/>
+                <istrue value="${testng.available}"/>
+            </and>
+        </condition>
+        <condition else="testng" property="testng.mode" value="mixed">
+            <istrue value="${junit+testng.available}"/>
+        </condition>
+        <condition else="" property="testng.debug.mode" value="-mixed">
+            <istrue value="${junit+testng.available}"/>
+        </condition>
+        <property name="java.failonerror" value="true"/>
+    </target>
+    <target name="-post-init">
+        <!-- Empty placeholder for easier customization. -->
+        <!-- You can override this target in the ../build.xml file. -->
+    </target>
+    <target depends="-pre-init,-init-private,-init-user,-init-project,-do-init" name="-init-check">
+        <fail unless="src.dir">Must set src.dir</fail>
+        <fail unless="test.src.dir">Must set test.src.dir</fail>
+        <fail unless="build.dir">Must set build.dir</fail>
+        <fail unless="dist.dir">Must set dist.dir</fail>
+        <fail unless="build.classes.dir">Must set build.classes.dir</fail>
+        <fail unless="dist.javadoc.dir">Must set dist.javadoc.dir</fail>
+        <fail unless="build.test.classes.dir">Must set build.test.classes.dir</fail>
+        <fail unless="build.test.results.dir">Must set build.test.results.dir</fail>
+        <fail unless="build.classes.excludes">Must set build.classes.excludes</fail>
+        <fail unless="dist.jar">Must set dist.jar</fail>
+    </target>
+    <target name="-init-macrodef-property">
+        <macrodef name="property" uri="http://www.netbeans.org/ns/j2se-project/1">
+            <attribute name="name"/>
+            <attribute name="value"/>
+            <sequential>
+                <property name="@{name}" value="${@{value}}"/>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-ap-cmdline-properties" if="ap.supported.internal" name="-init-macrodef-javac-with-processors">
+        <macrodef name="javac" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${src.dir}" name="srcdir"/>
+            <attribute default="${build.classes.dir}" name="destdir"/>
+            <attribute default="${javac.classpath}" name="classpath"/>
+            <attribute default="${javac.processorpath}" name="processorpath"/>
+            <attribute default="${build.generated.sources.dir}/ap-source-output" name="apgeneratedsrcdir"/>
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="${javac.debug}" name="debug"/>
+            <attribute default="${empty.dir}" name="sourcepath"/>
+            <attribute default="${empty.dir}" name="gensrcdir"/>
+            <element name="customize" optional="true"/>
+            <sequential>
+                <property location="${build.dir}/empty" name="empty.dir"/>
+                <mkdir dir="${empty.dir}"/>
+                <mkdir dir="@{apgeneratedsrcdir}"/>
+                <javac debug="@{debug}" deprecation="${javac.deprecation}" destdir="@{destdir}" encoding="${source.encoding}" excludes="@{excludes}" fork="${javac.fork}" includeantruntime="false" includes="@{includes}" source="${javac.source}" sourcepath="@{sourcepath}" srcdir="@{srcdir}" target="${javac.target}" tempdir="${java.io.tmpdir}">
+                    <src>
+                        <dirset dir="@{gensrcdir}" erroronmissingdir="false">
+                            <include name="*"/>
+                        </dirset>
+                    </src>
+                    <classpath>
+                        <path path="@{classpath}"/>
+                    </classpath>
+                    <compilerarg line="${endorsed.classpath.cmd.line.arg}"/>
+                    <compilerarg line="${javac.profile.cmd.line.arg}"/>
+                    <compilerarg line="${javac.compilerargs}"/>
+                    <compilerarg value="-processorpath"/>
+                    <compilerarg path="@{processorpath}:${empty.dir}"/>
+                    <compilerarg line="${ap.processors.internal}"/>
+                    <compilerarg line="${annotation.processing.processor.options}"/>
+                    <compilerarg value="-s"/>
+                    <compilerarg path="@{apgeneratedsrcdir}"/>
+                    <compilerarg line="${ap.proc.none.internal}"/>
+                    <customize/>
+                </javac>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-ap-cmdline-properties" name="-init-macrodef-javac-without-processors" unless="ap.supported.internal">
+        <macrodef name="javac" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${src.dir}" name="srcdir"/>
+            <attribute default="${build.classes.dir}" name="destdir"/>
+            <attribute default="${javac.classpath}" name="classpath"/>
+            <attribute default="${javac.processorpath}" name="processorpath"/>
+            <attribute default="${build.generated.sources.dir}/ap-source-output" name="apgeneratedsrcdir"/>
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="${javac.debug}" name="debug"/>
+            <attribute default="${empty.dir}" name="sourcepath"/>
+            <attribute default="${empty.dir}" name="gensrcdir"/>
+            <element name="customize" optional="true"/>
+            <sequential>
+                <property location="${build.dir}/empty" name="empty.dir"/>
+                <mkdir dir="${empty.dir}"/>
+                <javac debug="@{debug}" deprecation="${javac.deprecation}" destdir="@{destdir}" encoding="${source.encoding}" excludes="@{excludes}" fork="${javac.fork}" includeantruntime="false" includes="@{includes}" source="${javac.source}" sourcepath="@{sourcepath}" srcdir="@{srcdir}" target="${javac.target}" tempdir="${java.io.tmpdir}">
+                    <src>
+                        <dirset dir="@{gensrcdir}" erroronmissingdir="false">
+                            <include name="*"/>
+                        </dirset>
+                    </src>
+                    <classpath>
+                        <path path="@{classpath}"/>
+                    </classpath>
+                    <compilerarg line="${endorsed.classpath.cmd.line.arg}"/>
+                    <compilerarg line="${javac.profile.cmd.line.arg}"/>
+                    <compilerarg line="${javac.compilerargs}"/>
+                    <customize/>
+                </javac>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-macrodef-javac-with-processors,-init-macrodef-javac-without-processors" name="-init-macrodef-javac">
+        <macrodef name="depend" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${src.dir}" name="srcdir"/>
+            <attribute default="${build.classes.dir}" name="destdir"/>
+            <attribute default="${javac.classpath}" name="classpath"/>
+            <sequential>
+                <depend cache="${build.dir}/depcache" destdir="@{destdir}" excludes="${excludes}" includes="${includes}" srcdir="@{srcdir}">
+                    <classpath>
+                        <path path="@{classpath}"/>
+                    </classpath>
+                </depend>
+            </sequential>
+        </macrodef>
+        <macrodef name="force-recompile" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${build.classes.dir}" name="destdir"/>
+            <sequential>
+                <fail unless="javac.includes">Must set javac.includes</fail>
+                <pathconvert pathsep="${line.separator}" property="javac.includes.binary">
+                    <path>
+                        <filelist dir="@{destdir}" files="${javac.includes}"/>
+                    </path>
+                    <globmapper from="*.java" to="*.class"/>
+                </pathconvert>
+                <tempfile deleteonexit="true" property="javac.includesfile.binary"/>
+                <echo file="${javac.includesfile.binary}" message="${javac.includes.binary}"/>
+                <delete>
+                    <files includesfile="${javac.includesfile.binary}"/>
+                </delete>
+                <delete>
+                    <fileset file="${javac.includesfile.binary}"/>
+                </delete>
+            </sequential>
+        </macrodef>
+    </target>
+    <target if="${junit.available}" name="-init-macrodef-junit-init">
+        <condition else="false" property="nb.junit.batch" value="true">
+            <and>
+                <istrue value="${junit.available}"/>
+                <not>
+                    <isset property="test.method"/>
+                </not>
+            </and>
+        </condition>
+        <condition else="false" property="nb.junit.single" value="true">
+            <and>
+                <istrue value="${junit.available}"/>
+                <isset property="test.method"/>
+            </and>
+        </condition>
+    </target>
+    <target name="-init-test-properties">
+        <property name="test.binaryincludes" value="&lt;nothing&gt;"/>
+        <property name="test.binarytestincludes" value=""/>
+        <property name="test.binaryexcludes" value=""/>
+    </target>
+    <target if="${nb.junit.single}" name="-init-macrodef-junit-single" unless="${nb.junit.batch}">
+        <macrodef name="junit" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element name="customize" optional="true"/>
+            <sequential>
+                <property name="junit.forkmode" value="perTest"/>
+                <junit dir="${work.dir}" errorproperty="tests.failed" failureproperty="tests.failed" fork="true" forkmode="${junit.forkmode}" showoutput="true" tempdir="${build.dir}">
+                    <test methods="@{testmethods}" name="@{testincludes}" todir="${build.test.results.dir}"/>
+                    <syspropertyset>
+                        <propertyref prefix="test-sys-prop."/>
+                        <mapper from="test-sys-prop.*" to="*" type="glob"/>
+                    </syspropertyset>
+                    <formatter type="brief" usefile="false"/>
+                    <formatter type="xml"/>
+                    <jvmarg value="-ea"/>
+                    <customize/>
+                </junit>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-test-properties" if="${nb.junit.batch}" name="-init-macrodef-junit-batch" unless="${nb.junit.single}">
+        <macrodef name="junit" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element name="customize" optional="true"/>
+            <sequential>
+                <property name="junit.forkmode" value="perTest"/>
+                <junit dir="${work.dir}" errorproperty="tests.failed" failureproperty="tests.failed" fork="true" forkmode="${junit.forkmode}" showoutput="true" tempdir="${build.dir}">
+                    <batchtest todir="${build.test.results.dir}">
+                        <fileset dir="${test.src.dir}" excludes="@{excludes},${excludes}" includes="@{includes}">
+                            <filename name="@{testincludes}"/>
+                        </fileset>
+                        <fileset dir="${build.test.classes.dir}" excludes="@{excludes},${excludes},${test.binaryexcludes}" includes="${test.binaryincludes}">
+                            <filename name="${test.binarytestincludes}"/>
+                        </fileset>
+                    </batchtest>
+                    <syspropertyset>
+                        <propertyref prefix="test-sys-prop."/>
+                        <mapper from="test-sys-prop.*" to="*" type="glob"/>
+                    </syspropertyset>
+                    <formatter type="brief" usefile="false"/>
+                    <formatter type="xml"/>
+                    <jvmarg value="-ea"/>
+                    <customize/>
+                </junit>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-macrodef-junit-init,-init-macrodef-junit-single, -init-macrodef-junit-batch" if="${junit.available}" name="-init-macrodef-junit"/>
+    <target if="${testng.available}" name="-init-macrodef-testng">
+        <macrodef name="testng" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element name="customize" optional="true"/>
+            <sequential>
+                <condition else="" property="testng.methods.arg" value="@{testincludes}.@{testmethods}">
+                    <isset property="test.method"/>
+                </condition>
+                <union id="test.set">
+                    <fileset dir="${test.src.dir}" excludes="@{excludes},**/*.xml,${excludes}" includes="@{includes}">
+                        <filename name="@{testincludes}"/>
+                    </fileset>
+                </union>
+                <taskdef classname="org.testng.TestNGAntTask" classpath="${run.test.classpath}" name="testng"/>
+                <testng classfilesetref="test.set" failureProperty="tests.failed" listeners="org.testng.reporters.VerboseReporter" methods="${testng.methods.arg}" mode="${testng.mode}" outputdir="${build.test.results.dir}" suitename="TrafficLight" testname="TestNG tests" workingDir="${work.dir}">
+                    <xmlfileset dir="${build.test.classes.dir}" includes="@{testincludes}"/>
+                    <propertyset>
+                        <propertyref prefix="test-sys-prop."/>
+                        <mapper from="test-sys-prop.*" to="*" type="glob"/>
+                    </propertyset>
+                    <customize/>
+                </testng>
+            </sequential>
+        </macrodef>
+    </target>
+    <target name="-init-macrodef-test-impl">
+        <macrodef name="test-impl" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element implicit="true" name="customize" optional="true"/>
+            <sequential>
+                <echo>No tests executed.</echo>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-macrodef-junit" if="${junit.available}" name="-init-macrodef-junit-impl">
+        <macrodef name="test-impl" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element implicit="true" name="customize" optional="true"/>
+            <sequential>
+                <j2seproject3:junit excludes="@{excludes}" includes="@{includes}" testincludes="@{testincludes}" testmethods="@{testmethods}">
+                    <customize/>
+                </j2seproject3:junit>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-macrodef-testng" if="${testng.available}" name="-init-macrodef-testng-impl">
+        <macrodef name="test-impl" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element implicit="true" name="customize" optional="true"/>
+            <sequential>
+                <j2seproject3:testng excludes="@{excludes}" includes="@{includes}" testincludes="@{testincludes}" testmethods="@{testmethods}">
+                    <customize/>
+                </j2seproject3:testng>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-macrodef-test-impl,-init-macrodef-junit-impl,-init-macrodef-testng-impl" name="-init-macrodef-test">
+        <macrodef name="test" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <sequential>
+                <j2seproject3:test-impl excludes="@{excludes}" includes="@{includes}" testincludes="@{testincludes}" testmethods="@{testmethods}">
+                    <customize>
+                        <classpath>
+                            <path path="${run.test.classpath}"/>
+                        </classpath>
+                        <jvmarg line="${endorsed.classpath.cmd.line.arg}"/>
+                        <jvmarg line="${run.jvmargs}"/>
+                        <jvmarg line="${run.jvmargs.ide}"/>
+                    </customize>
+                </j2seproject3:test-impl>
+            </sequential>
+        </macrodef>
+    </target>
+    <target if="${junit.available}" name="-init-macrodef-junit-debug" unless="${nb.junit.batch}">
+        <macrodef name="junit-debug" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element name="customize" optional="true"/>
+            <sequential>
+                <property name="junit.forkmode" value="perTest"/>
+                <junit dir="${work.dir}" errorproperty="tests.failed" failureproperty="tests.failed" fork="true" forkmode="${junit.forkmode}" showoutput="true" tempdir="${build.dir}">
+                    <test methods="@{testmethods}" name="@{testincludes}" todir="${build.test.results.dir}"/>
+                    <syspropertyset>
+                        <propertyref prefix="test-sys-prop."/>
+                        <mapper from="test-sys-prop.*" to="*" type="glob"/>
+                    </syspropertyset>
+                    <formatter type="brief" usefile="false"/>
+                    <formatter type="xml"/>
+                    <jvmarg value="-ea"/>
+                    <jvmarg line="${debug-args-line}"/>
+                    <jvmarg value="-Xrunjdwp:transport=${debug-transport},address=${jpda.address}"/>
+                    <customize/>
+                </junit>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-test-properties" if="${nb.junit.batch}" name="-init-macrodef-junit-debug-batch">
+        <macrodef name="junit-debug" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element name="customize" optional="true"/>
+            <sequential>
+                <property name="junit.forkmode" value="perTest"/>
+                <junit dir="${work.dir}" errorproperty="tests.failed" failureproperty="tests.failed" fork="true" forkmode="${junit.forkmode}" showoutput="true" tempdir="${build.dir}">
+                    <batchtest todir="${build.test.results.dir}">
+                        <fileset dir="${test.src.dir}" excludes="@{excludes},${excludes}" includes="@{includes}">
+                            <filename name="@{testincludes}"/>
+                        </fileset>
+                        <fileset dir="${build.test.classes.dir}" excludes="@{excludes},${excludes},${test.binaryexcludes}" includes="${test.binaryincludes}">
+                            <filename name="${test.binarytestincludes}"/>
+                        </fileset>
+                    </batchtest>
+                    <syspropertyset>
+                        <propertyref prefix="test-sys-prop."/>
+                        <mapper from="test-sys-prop.*" to="*" type="glob"/>
+                    </syspropertyset>
+                    <formatter type="brief" usefile="false"/>
+                    <formatter type="xml"/>
+                    <jvmarg value="-ea"/>
+                    <jvmarg line="${debug-args-line}"/>
+                    <jvmarg value="-Xrunjdwp:transport=${debug-transport},address=${jpda.address}"/>
+                    <customize/>
+                </junit>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-macrodef-junit-debug,-init-macrodef-junit-debug-batch" if="${junit.available}" name="-init-macrodef-junit-debug-impl">
+        <macrodef name="test-debug-impl" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element implicit="true" name="customize" optional="true"/>
+            <sequential>
+                <j2seproject3:junit-debug excludes="@{excludes}" includes="@{includes}" testincludes="@{testincludes}" testmethods="@{testmethods}">
+                    <customize/>
+                </j2seproject3:junit-debug>
+            </sequential>
+        </macrodef>
+    </target>
+    <target if="${testng.available}" name="-init-macrodef-testng-debug">
+        <macrodef name="testng-debug" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${main.class}" name="testClass"/>
+            <attribute default="" name="testMethod"/>
+            <element name="customize2" optional="true"/>
+            <sequential>
+                <condition else="-testclass @{testClass}" property="test.class.or.method" value="-methods @{testClass}.@{testMethod}">
+                    <isset property="test.method"/>
+                </condition>
+                <condition else="-suitename TrafficLight -testname @{testClass} ${test.class.or.method}" property="testng.cmd.args" value="@{testClass}">
+                    <matches pattern=".*\.xml" string="@{testClass}"/>
+                </condition>
+                <delete dir="${build.test.results.dir}" quiet="true"/>
+                <mkdir dir="${build.test.results.dir}"/>
+                <j2seproject3:debug classname="org.testng.TestNG" classpath="${debug.test.classpath}">
+                    <customize>
+                        <customize2/>
+                        <jvmarg value="-ea"/>
+                        <arg line="${testng.debug.mode}"/>
+                        <arg line="-d ${build.test.results.dir}"/>
+                        <arg line="-listener org.testng.reporters.VerboseReporter"/>
+                        <arg line="${testng.cmd.args}"/>
+                    </customize>
+                </j2sepr.           êPrOrO  ëPrOa     ..          êPrOrO  ëPrO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+package com.example;
+import java.util.Scanner;
+
+
+public class SwitchEx1 {
+
+   
+    
+    public static void main(String args[]) {
+   
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Please enter the number of month it is");
+    int moth = sc.nextInt();
+    
+    int runit = 2;
+   while (runit == 2){
+    switch (moth) {
+        case 1: System.out.println("So its January"); runit = 1;
+            break;
+        case 2: System.out.println("So its February"); runit = 1;
+            break;
+        case 3: System.out.println("So its March"); runit = 1;
+            break;
+        case 4: System.out.println("So its April"); runit = 1;
+            break;
+        case 5: System.out.println("So its May"); runit = 1;
+            break;
+        case 6: System.out.println("So its June"); runit = 1;
+            break;
+        case 7: System.out.println("So its July"); runit = 1;
+            break;
+        case 8: System.out.println("So its August"); runit = 1;
+            break;
+        case 9: System.out.println("So its September"); runit = 1;
+            break;
+        case 10: System.out.println("So its October"); runit = 1;
+            break;
+        case 11: System.out.println("So its November"); runit = 1;
+            break;
+        case 12: System.out.println("So its December"); runit = 1;
+            break;
+        
+    default: System.out.println("Thats not a month number silly, try again");
+    moth = sc.nextInt();
+            }
+   
+        }
+   
+    
+   
+    }
+}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                sses/com/example/SwitchEx2.class}RmOA~–»öJ=Ş
+¥*¥ pŠˆ(ˆB#	I}Ij0Æf{œpØŞ5åŠcôÿÅÄoú¡$šøüQê³W‚ˆÕMfvg™gf÷û/ß Ìâv&FÚ1Š1“Ğ0’À%µ+•Sj"‰I\NàŠ)ÓñEÏ÷Â%-7±. çƒW «àùîÃz¥äÖÈR™T!pdy]Ö<e9õpËÛÈœ b»{²R-»vñµ:[÷÷fP‘/ĞŸ{^Ø–»Ò.KÓ.†5Ïß\ˆÊÉÚ&/èm“ZP½€é"OCæƒºÒX£Q:2âÎÑ¡£JçÕY˜È$‹A½æ¸«bÚyÌjZU2ÑN¶‰«¸ÆNW_©{å·&`F÷[ÁKkÙ²LÌàºR³&n`ÎÀMó¸u2jÅ²Ò-Ç!Ğı»Ì£Ò¶ë„¸Šû;¡[áCuéæD¼À~LB!i¹²² æP­ºş†ÀT®ÅHÿh„‰ÙÜÚÿàD4]}¹‰VÏÑû7!²5ªÊ*ûdÜŠĞ:†q†ßR­65vê.Z6wÁ=6yñ)‚»©ãÊÉ j³€z¹·£éf²Èğ+Çè{ß½¼¨İÑ–´9}à#í²LÉSÎQæ)OÚÄg´}…öìz*Ö@<Û€Ñ@¢ö¸{ „“„OÀÖ~NëÇ¸â­E¼g¢&{h¥$ß1rG?î!ƒ<¹¬â<^` %ÂÅŞa4êq¶Ù#3Ñ]oq–Ñ‚Ş7ÌàTì#Ë“Æ{w1È“Î|°†ş“eb..`h(ËD+åğ/PK
+     °~œF                SwitchEx/build/classes/switchex/PK    xœF€¦¹ET   U      SwitchEx/manifest.mfÂ1
+€0 À½Ğ?ä]]‹cuqMm„@lÁ´ˆ¿×ãf>I«ÛèV.y„¡ë­Ù_B˜æu„€œT…‡E `J” [-V>Pä…øo,Ék>PK
+     œVoL               SwitchEx/nbproject/PK    xœFB(*÷$  Ø5 !   SwitchEx/nbproject/build-impl.xmlìksã4ğ;3üãáYb‡ïr»Â”ázWÃ8±Ú˜sì`;}ĞÉgWOËòCv’^a†k¬ÇjµZí®V+éáWóØ¹ Y¥É¡»ï¿ç:$™¦a”œº?~í}â~ñù«¯<|Íó^}eooÏùæèäè‡G§GOœ¯xöÔYdé_dZøÆs<sN:GOOJ³*ü?–ìûãÉ2ŠCZãøäùéÑ£'<ŸWyõ•¯ÓÌ)fÄY,³Eš'=sHG$s2 j47ŸfÑ¢xõ•(wÂè"
+IèDI‘:gi§—X*Ì _ùuò£"
+âèŸ ÓYÚ4/¢¸”ğW±äŠL—*=$“åù9ÀÅ.‚0²‚äE’JUPTZT°XÄ¤àèÄ$H–Š1ÿÏóp8¥ ôè¯9á)û‡î¬(ãñåå¥Ÿbr?ÍÎÇI>Æ‚/9ŞwÍêïÛW_V®²ÅÔ¾"”÷ ‚ëL‚œ„Qvèú¾T8–qqèò®“srè>¿ŒŠéìèÊ‹æ‹ØıœâáYÅÎœäype¾2gPVr–9ö£¤pöıOü÷`ŸYt>#™/jSÓ4	#	(3’´PI*9H
+>3œ Àö UÚ€;®B3ê»ÜKAüÅGdçÙ`A’0?t‘)FÀw#ÎTHÆŞtZ~E{$!ãËY9óÕ$%n8e³W‡µÿ™åOO}wüë£Óãg'Îó£Çøw @ÏÓ{ÎQş ÎI1Lï£ù¢¸vq0%ĞÙd0«3!¦Ë¼Hç|û¸ªıKºt¦Aâ¤0| $xÓQ‚ÒC—CgQL,V¶i¸Ş¼#ôR£‹  Zg`”$+®±	(˜LÄ”à…‘QÎ¢sŸ—‹HîÔÏÇ¯ß°_«á ø_@_ŠŒ4RèôYæ$k#Îë7X¢Ô¼é+„ßÓéeê¨’Î„€Ìw‚Œ€0Xq|-?$I‡L®) .òYü5÷o—0¿ç L‚éÆ&Âú”óqÖNı<]fSèòE/	JŠÜ±ueFĞråui?RD×‡»›n„½èß²U©k#­OükL³èë	œ$Â”ÍÛ–qÌ@FÈë7øéÏÒ9Y'Q2ÆO  ÚÉÎó ‰Î@bs>vDK‡®Ì‘•(,SU•êä€Y>µ@HRªWUE &x’…£Yäo˜1¹´ßG¬Ñ‰¦L¸²6W.f>8t]§È¢9è«l©nS„ÄijÆÔ«¼7¦^í¢Ö<ˆ
+`óş´Šòœµ°Üñz´UÖ£é„_8ëS…	.®ó˜$çÅÌa]X\äĞÙäI!«óÉq9#`êœg&xVn€]Â~P×+¿û¿}òéoÿîû{ï|¡CW"y£|¦~MgÑ…I·4ëÉQƒ^1™ î‡Qƒ®¬y¢$³ ùpœfƒÉ1B«C¹¨DÏ±Mù8šäşãtqıü`S	ØaÖ{bV	Åz1€ìá¥w…BXZÖ©N‘Èlk¾¼»‘|÷ú¹¢¦=íVûw¤¯Ó&Ğéá, y‰‹íÜRÊ›öÖöól
+"%Û¤ÄEÔ¸bÜğ j#¿«8”!Êğ,uƒjt“¼¤>wËø°¹ˆÈåĞ.UÀ4uê,Æ‹WjæóÊ:'[&ş_s0Bs¹ÊqÇv|pªØUbvóŒ’Ì¾±Ë4{ZZ€qßáª{¥#KÈœWµ™|¶O8¬V7EpF
+êú•½Â†;éW|ûŠåå•=Ù™\ñÅ@‰ú 9Túª‹QŠh^¥ßb,9d	\P‚XÍ_Ù:LÎ–†z[”•¥^\ğmÚ²Ô¨ßM0:¶C%ÓxÅ={{­åÉ-oÉm¡˜h²8Š>Wˆ¬èÓy Å['´,µ g KÖ(<t¡BšñÔ*ÃÇ\ÿE¸fF†&qÔ}¨…>‡~%'¬$‰÷ó$MYh¼8xŒ‹ô9]ê4à¸zkè4 ×XZU&‚qM’å´0hßäºh ;ÏuO4²†%k‰-Êá‹¯–ç}øá'|ü‘íàÖ:L>üèª§pd	}Áw½V½G>ÍÁu>bÀw™DW›ÒZ…z–BI¼itjnèn‰@Ë_éâÇ®?'¬AÏJMË¼öf§à¼ ^ŒŒ I£©ôN24êC«Ôx/pœòD9Ám,W3…s¿’İ-Vÿ‚AS~[—Â’NpÖIØö¸S°Ç]–%ä&ÔL×ä¦5hö,ƒ´‡60|¥ƒ“sNİh#EDÍ¦ jùì{ Jiõn7Âv†q…?VvKôJë›X¨3É »æÈÌÓÒòd]‘°ÓD¨'TOº3´L„¨Ñ_AËÛ&^b_­a×=Í‹{½ín½¦5Ûô §/D×UhÉ2‰I­p×ˆûùSÜFÕÎSXGc=:cÍÊ4Ù%L¥:M³¨‹ÎëJUL²¨I[`¢†äfë*Ïm’/@* JYö´@â5 ¦
+ôÀ¯T)#9ì¾W¡ì¡
+,äHA­/`GËr|¬æzÃ~x¹U‘Ë«¨=óeÙ‡xí›J¥ s²,Œÿºã®RTò™ÅrXTƒ÷J9MÖ—7øwU2Í¾¼¡?WuºG­’Yl…¥t°ğ`5‹	¯îàDgèñóåb‘f	Á„C{<ˆİúq¢–­ap33~€TÛ Ñ
+=GìıæS¡yÊU,P…oœ3c«Êçk`B˜cöphÿ”=$¡È”^p$M5X2µ<Ö¿s’€oÆUøå™yÌÀ¾½tY,–RY¡1…3Fb,,ë“«J}rÕ«~É)AĞ/Ëú­	yzĞÛ¤l""‰É&6/(Ì0ÁRWÄ¸æZCØÄ)[/KF`ÃNqè	„›"^@–ÿëë,üåÎDÍ•è ±€c¬ÆGÀ˜âè«¡U‰´H^ğÆøÏ•
+¯õ$:‚¡ N™Ûp‰®ZÁ/HäÌA¶Ì_,–ß˜#¡”y5gw8Š‹°†ú‚,FLDâö¨Ã¾1èE¤O$JıR°R“¿€ª,3ê¢Úæ0NådÌ²4K“y”cè2¤ñÎ‹–ArzpîÒ±¦§…!Ğ„ı¸ı‡R°6PRA÷–¥¶j±ìÃÒN‘j”w‡§ÚëMóæ­¨¼µe	@¬ 5…cWU[×`²£±`•(Cš%}HF™ZÁõ™¼íKÜ®8R ‡@ì¢„Ÿ¤	±"„Ğ'õNNÊ/ÃÖì0(Á)Û”|¹Ñ`îLÎÉ¹39ÿÇ&çÎzÜY;ëñå[/ÛÖh÷L¬­fã¤ÍÔ`Èìl{…Á(»1°ÙQÑE“kE´Âí­¤ª2
+j%ä	ÇŒgF'¥h[e„ÏÛí°ä ®ªíQı¾ãµ(1v)D†¹;al8^€ABÇ
+N’#ÖTÂï ¬Ì4+v«6éÃñ¹ »nä”.&AÉG€´Á»Ã8To°Ú´ÉyœNæG‰Û Y:…ÉÏ)ün;6.Ñ¨.@GşXq^E3›é†8íê[%ÓY*#Eë®\qŠŞ,&ŠÔÃgÈ6Q‹_Ê	4ê)ÇØ<)lúß£a[YÑ E£³º°‰5ˆÅø¾|¯È°dÂ#m&íU'Úr ‡ŠãêŒ*¤;ªsA¸é 0{ú ±“[$P*t÷Öb£(9ƒÚ9cQ>#Œ ß7ãâ3ĞëÍóâ3wlFIŸ àRåšÈa›¹¥n×Übe„ÏKTWsgÕf„ÒrÛQø/×Ë!İ¥áèÕt¹"ãëüö}"¥á¡Ş-Ì
+Š`„]ıü¤u„+„8Qëk}Úæ>šCH—iÌ0B“l¼šÎ³ô’9éXqéBP&`«AM¯‚áDG3Hà‘Zb¯"å˜.›ùu.º¬;&ƒ©³€¢+F#@Páä·ûJ&Wµâ³½ğÏõú‡Z‹qg…óC¼ìÆGs “,"g0Ñs@=VAÁ¶ÕË‘¶&Ç]ÌË[$¾æG~Ú¬µÂ×üMÊ$®)2Û.-"å­)®ww'pïÀ¥ÌŒmwKÑ®å+÷ëV	7ùÀG%kppwº~±Y8M3t¯™¸à8÷è–iÛAø­›…f¿µƒI AÙ5%£ìtéN—6.òG-K”‘Ó¢NxÜ±±xR'3ºa°rmºš•Ø)ë;£¬-¥p”Ô©GS-ø•eÅæÜ=¿ºÜe‚ˆG!°±eµc¥M÷öÆ{xşdMµ:T¥–ˆ™Gû^ë3òÀZGÊNáÏÉ7pê)³8O¦ÍÛú1byÇ4i™}ß`™¡“£NrÓŒ`¤ú?‘l×ûşÀ\±šEœMœ©i§2¹]Çlº‹ÌÉ—QAôûe]z8‡¥1úÑXé i
+‚øIÕPmQ`&[ûGğG~éÖ»wÌVèF¸K#³Ş¬JnTmôá6í&íÜp‡ô‹¦r›kÓ
+7¿>?IÙf—nctÜÃ1fl–‘Zm»!æÙÿX¾Rı€kÙüè¶4(çVµC%[*HK»¬CÊj(ßâ"ˆ[ƒV!»¹ò_›+l\ï×dÙ†}Ò4[$C×yxNóTi™L³hç{0zò=¢;Äú¼Àà>Åg{™I¿¾²óo#A¾uÀJ®ˆ7$¶¹ $Åídå“ÍŠ›f*ÿ_'|‚BØ¹	È•-¹	ÿï{z» ŠNgÎwuã§" ©øñP>{˜´ê¬(ï`ÑşWx¹8(2Sè¯<ĞdÊj„a†’u>û\ç\ÇÖ—dˆñ`T wò'ÿï—üßÅtôèÖ.¦cÓ±Sí÷Eµ×©éQ§¼,´óËÒ¢;ïìšFÀmzgÕß3­B|Ã~ÚA»ˆ‡EÕ6díí9ÕècHéÏ£OéPYÛ©ÖåÉj<¥+íŒóåì†vêT*H5$Å>ûÖkûğ!ûvkÑNF×d¨Š#"UÚ]LÒğ…»éë:¹2ƒ½Ğª?R‚#{Ú}¼¿÷;FN‰ûãu0C:ÏN]:]Ñ;/#ÂÅÅ­&}ü2º´£Ó¯5Äª[E+TÜò‹h/ôÀÆ÷la*Ñâe[É¸•ze[×~ä­ƒ!âÂ«¨0K¨¼WŠÓ7ä}ß‚á†Z›ªº9noŠ%ç[7ÆnUáTl¢+ ší_nÉ>U¤¡£Ğ>tí4‹B×ÂÀaHlÃÂ±XIP¶é¹ZP+ 
+©sÿy›ÆĞ{¡ğò¦cÏIÄ†x·¾Û·‘vŒ[¶°n£‘i³CÔ2«nyˆf'óşó2Oc¨íX¼ÄzêM8«7ê°îã´+bØÉ–äü¥H—²=4ê]B†’N¼ÇctĞ9ùêcÿÃ.0„<Üü5E³ø3–éy„OşD…¼ß“„:Ï«ïšz.O½Ñã°E†zuH¥éı©*¿ô^¼<=Ã'ĞR©d‚sAUÕ<öh£Ü™{ôPRïŞİ¯w úv¯–¹Úô/83Òø‚Üé‡lHrá¯ÿ˜Ù{IZ;S¢F¯J§™µSxİ%¹$%Âûp¡è¡õ>>¼zw3ºÌ2¨ÈvU„Ö8f^m·$+§¡¼»’:%€Ôa¦Ç9 3›Å qåZî€¶ş9 Õ÷–YÖÚ3t¯$Â¸9/ÈuíéjÊÈgx‰wj‡•µÚé@¬>™Õ6u›)]Ù,şº~ö\­ñxXÚne»Öh¶ÙšlÓîKŠ»N»lsÆ‹µ"*X½IhÀ+]ÛúíOOa00Å‰²ìPÓõØ­®öí(¼U‹ªƒ(·Dñ›c«-Pj_®kµYñãô¬Ítµ6Q)¥UœHƒ5L0Â£ÍN`%r€ß÷ˆÌş`íŠÿZ-Xù–T¿Ë¤[¾0'B›õÖĞ%J9<dFíL–iÜªÁ#›é2PÑ:®®sÇn¡VTñÓÌ…‰Ó ïÕè–lØ|õ€;¨ËèZ]æñåü©„‚øĞ1¶|è€U”î/~uóÀ:Jz³¸ÅRLµ^âÊjç½Hë•Ú£<ÏyóïeZ|†4±÷WåëîİïÏ‚âÁƒê]zÅ,H¼}ÿËwÁ"¾—Şš×ñ¥·rLXn-Òûş{îx[ ÷·úÁö@¿¿ö;æ<ÈägîhV£]‰ dÜ¤Š:ŞÏIÊ4¾÷q“Wâ“Y/Y70ÓjÈÛañgN_ÂÀ_)orí¥<Ş…W™ÍÉÜdŞ¢ÑçQ.#XB]æC0zı¦¶ùU‚5¥²uıÕrT©0ì9ğ¾–QgÛ÷.ú96emÉqaå/À£†›àÖ|w5¬ºÒÊĞÔê) Ã^ƒRI- 2ÔL3vVE=Ne‚¡vHè2 Æ;-)oµÿ:|ïõ%XÂ;ïÅ¶¬Eí)¥®G{
+hËÅÂ4R?ñ\˜ŸU¤?w}'2{TÚ‰Ìÿ¡Èœ¦‹ë8šämbS”é):­mÛ$:Ãà0œ™Rî‰Ô[“aÆ#£í> #Ççl!Óùl˜\Èh2ßçOúlJÈí± ŸS&Ç:ÍİX1öÂWí#iş¸W¦Ğ¿fbµ‰°Y b/d½õèoŒG>VpÜqHÂô;!rıAc
+˜‡ƒÃÈüÆƒ÷ºèÚ4Tólk&ğx¯Ehi´2æõ7ôJ'-–àWd^¸R ’/ÄğÃÇwğQ9h‚ù2¯ÆL0êÙUä:è³Éøí=Èâ[âşh†í`	QÍ×âqCr%ªÓ‘ñiÁqr¦åá‘$ ë”4ñ8[´ƒoHbÕ¥øÉ™9Ñp`IÇJƒŞSÃÊ÷\/÷d‚l:‹.ˆ¤NËÄ]«ä·FĞH@ï{—À)k#ãº,cé^f¦ ıö´ğ"C¢³•K¦i`™ÃËC~Oík.\ FÛ09»‰k;â<÷¶ÃMhé¾^F¥^$‡'âaá€Ö¯åKqAoÁQƒ@¼bÂ¬sŒ{õ×ôÆ½Á¨Ç}<f÷l\(ŸÙA–oĞÕCyÄq	?ûÖ¼ø/+›oıZ€Â Ïvx•Ã{;ÁÂÏ—zÆ.fÇãAl¼hñŞ£yHtÿwÿ·÷¼ÿxûwßß{çqXÔ|{İäohblÅâ•»šºİ4AdQ¤…ÕÛ
+ _±ŒIWOfÂ9J«Q·@oÜP`ËÁƒ¶Zj:çã~OCß0o(Ê\¦¬6²QË£æ!nb‚VÑ¸NEë,%¾*ìH(Åèb¯ùödì'×lP,Lyy—TŠ#ªÆ‘¤kŸi¯	:o	DÕËTREQ³µQÖ7†D&w´šÿ™…?{úıñwNŸ8Ïãß<¯^§Â(æØÚu7&jüÓ}]ÉÚ¬¶é3íµ x£uy”RÕcõÂr©«P9UoñÚjg$¯}
+ÍGh Lò²WÀ»²Äã%=Ù®èºz§:&X¼ô õãë)¾Š¸OaJ¨.ƒÜáP
+Õµ]tvèÃ$‰jØ’ÔÇDD·åj}‘ÍZM—ÓY½/èÑvueR?tÀn=s0txî1ñÏÃî¦	Ä¡Ã)•Ù5àU\Ñ`ËíôF*ß¼`	Ë˜4SÚ’c@çÎ@W3%cñ£³k#{ÜÖ ¨\ß®Æ%â( ¢›iôå‚åO	êOZ¬¬eå¢F–aëØ^ÖN3(Ñ¯VÂµq­×¡‘œl* –ĞÿyIÛœ3\VëôûsÄ%L}F8¿|‘è‡Çò°;UÖö9^´ ±‘E@ºÜ˜¸˜¨Vª•ZÜTÏKw:âA‹ˆÚkÆEíˆÁÛ«±öYÓ2Ùt±Õ¢d$pà‚E4¿jãÿzİÉ1õ¼:ª2éHûpèæÏé•&Sâá³bÕ±‚ae±t‚šrPÃTògco©•æ@ —6ƒ¤IZÄO]mÙí«ºÁÌK,M8WZª“Ç
+;å`ê³ ÷K4Æù$(X; }$ÉøéÑé#ïøäë~t“ÕºˆîOŒƒ7^ÿªtÈ[ñoo1:Ğ…Àı’u3®AOwÌÄÒLé´€vòi-˜‰ı˜¥:Âó.øH”w*úBç}§q…–Uy¤ºÙt$Ex¦?ËÓ!1™ÂŸtÎÌ \à~üä8œÑ+²!Âhs:#«q‡”TBÊí!15Q¥£™¬¨Øg ½,`Åÿç™¼ãj’ª$“@ŠõÔş€WÀ·~p¾úñø»'Ç'ßôòÚ2BrU-\c„%cc¡¼‰tû{Ü ÒTİ^\Épº‡œèr™o–”%]İO3óÛ»Zja/RÔ•-ZïñÖpºèeğa^©«ÄB¨W]şëw,Î¾ÄÑæ0
+W¾˜VŠ¼kô´J$f3‰b·GlVR¡J"m¤O'Wë²ªFu½7©§Â›éZÌÃr´˜F?¶y°å+¶Kğ›İw<…v<º\Úò‘HµhëöÆ{¶S‹Ú2­¾g­{c¼õ—O«|c6Ë¡2IÚ	V.©Q=kBw‡ÖY-mNjMŠÊîxC+$´İÒ„z„ìjEÌnI5Ş.›<§È<§$ñçÁ¹âÂøõ›:Âm†…êÃGÊrRVÃHüèÇx£ZI5ª™‘£&¦“¼‹Ü‘•X7»-D	àÓ.ÛÍ<<î~~šb¸3%JE#»¨Edˆ!çuxÜó(ƒúà>`Ïÿvî»HLô“'¨`À.<i 8’ÆQàÊ¡„‘>|rGù¡ŞğÒvQÛ4±Çş”ïÅÛ	Nİ7ØF¶ú’Å2Ê“‘axôj-3m\®m n‰;v>Û¹StÍùúúİKF	`¡f«×o€	|C„†M®Àåº€Ğ‰â®œ²Ô}”²Îâ(A7½ë‰D%'[ÃJI&û
+
++¹Óªg²Ä†vUtI¶œ¨_s°¼&7ªÅª€!LÁôÚL¼[Vd¨ÆMºUÉÊ§C¸=\Ô§Ûå>7»Şî©—C”›Æ×rJÉ²ûâõáRÃ
+^Å¡şöıjÒ•eúúêÌ"G?=ş±gÄNİ¨~{àP]ƒìÌ‚ïy§¨2o¶eøA%ë»¤{^:¦_“¬R¬|0z§\êngô©ğ…óWÕúÇ·)‚+o®¢kçNƒĞõ•M†4a‹àš-Q£}waÿ zjSÙ}7Œyïh¤œÙEšÌf(òÖë*Ë°¹«ÜêÊ.‹ùıäè«¿ù¦Ÿ¾Ïü®„¿ÌÒ¹~Ï½‰ı>'Yóä._a%HGká“¾h!»0î±CĞâišõ;Á™½s}:w?¨r»â’#1 Ï£ÚaªM­ê–'˜,6a&ã,ö[‚_è¼Qv‚xƒÄ)§vÜT¹ƒ.«Ö£v¬êÉØE"YİÎ´áÒ¹'éº÷ÃiÁÂ›Ö±ßÚ»T›¿´KıXº›x´$/f9 (¡º×â£äã]‘<hğJTuèQí:‡³b¾Ø…Ìâ
+‚U‡xåæá)ßÌWºc´”Ì‡ÀÚNeªyíu õ#¶Ş‰>"$UÕÚ„­ºJp¼´æ:GÊ¬¿@ûş‡g_·Îê­X›ã	›ó,èsç+¯ë5®ùä®¡Hİ¬äßÿ:_ÀûãMì^—ÏOKÎƒ4‰¯¼#&w.g$Ó»M#ú0Åé„_auŠœ9/’	Cƒ_ÓYÖ˜üÛŞµô6á¿²ê±¤ THâ%Q¸§dK"Ò,ÚİP8ô¿ã±gíuf½ñæÑ Dc_ã™ñc=ßÈî Ç´*H·†\1oØI¬ğü¡]Ï§Ææ›Fh*>›H-\]l)·¾ü——€¼øK+&Jw=AaJÁë†H^Ÿü×sö¼UªÃµÓsıß—y~“—GâC ]×±¶U¹àŸÿTÇîFÍl“=W²Ü@a¦Y9 áQmX‚t,¤¾¨ú½‰á¸:…Q‚/ü¿*óîlnÄ¬š7™ÌùÂï/ZÅ° ‰9Î€qYÈòîCjx`h©!Ë‡)‹ÀÁGl‘€•\–óüê7(Îº·Ÿ±bÔID+Œä‚Ö© ©>÷ ˜`<‹…•D•y5ÿ¦Ôv*Åÿ:©ò*_VªêŸˆ[añ&(¸Ÿ°}buñéÑx{­À±S·ôTİ}6B´>òO!:­	YÅ‹Ò“¾uhˆ{]”Ëß¥”ÜíÛ£ãg(Úí¤pc{Ÿ{D|6ıç¿4÷v1B&CŸÇ>+!?zcèÏwJ£Ì‰…‚‘iO(Nñ‰j—4µPQòÜ2Y›®4{ùa§~‡[£öY‘Í%Sh iq'$6]9}.šš}4îòİúrşòÃö}#÷ŠNx=.Ú°zO‹!æ†´ƒ ÿ1¥)Axv8KohĞäürŠI½Ï#õÚA1pÁt–Â	T»ÚL}À±Ê‡AÌU×KS‹¿Šìc¿ºôàşƒ'ŸÀ±zR«åÔòúø´ATC=z@<s!w8/8Q²ÉÔäMğöæbw{¿áåk#Lk¥³«znÆ¤¨¬¯³IYò~¾x}òÄóô¢r©¿šm	—àªoÒNW<:öEÛ¢@ÌEW
+“n!s9ùy9ñºÜ¤éìºÌs?RT–Ğòò0Éúó0:•ñc1¯I\ê-œÕ¼JÕO“˜ÿ2Ø_0ÍØpÎ[ôN2i¦×¯B—¬*N?bë%¯™ TgXğØiQ[r<>vŸê8q¹t;Á0ñºFİ¯6±tí+æ’°nO°XÕæøšfXVu{ããc>Ÿv8Ùâr ;ü/¹şş¢çÛ­#,‹›*÷ Ëœ‘Ëª«õ#ÿ¶W0»¾N æY}½`ox;ú>"=ìz(Œí6£Â"ÒïÑá]âÅ«OÉˆò£ı¦ì6ú¾9ru¹1| wíPX÷æ¦SŠ¡BYKÄÆ5û›Ç[èR:“‹ûÑ›á½«'ó4¢)]CÊØ´ğÈcPR“ÖZªQEøÀä§Ú˜}¹Ë˜Vìå1&¢½Ì‘vE`WºÀŞ¯Zî+¨ÍüËÅ~Zø	”Ô·Ó8°M@÷7 ğYŠCæÚè3×½À>qlÊøî[=gPú §¤æÑƒ§jLsûWlç+~š¾£%¥éAŞtÙÕtè­àŞ<É³O¾/ïÙãĞÔ=5k^æÕjQóöáá—Ú#¯ákìh‚ö(ú’AË‚ûŠ•’ğò9Üy­øH@Ì,YN ”ÿ0Ç.0óoË¢Ìu²>¬õù'XZôß™)ğL-*(\ıª²É¥ÒA|ê$e¨÷¦ß¹¬,uÀ¹G«Ó|0§b‰ODÛG®‡¸GrY^kÔ½U?®2¬o—5Îˆ:ikÇqŞ Va‹>£;MÊq=İÒ÷\¢ÎÁ­ASÕoš/x+â$H›» ‹qşŞõÄQ÷P©Â™§wVíXïDıÈüÉu^ÏŠiDôaÓ&–{Î³vMˆ] Õ›ŒPı&wˆVéítT­`M¦iÓå™ß;T8œ/‘Şa™¿Rıpl£¾'*#–Şè®7Åß]¾ëes”ˆQ¯“%ÈEóÒDh&ˆ›~Èt 3»™İöê)gu²iNäøîóf§ônvÍ4ïÅ¨3]Şº[y€©·”ĞÍ¸ÇÃ²|ßÓøQcs-£ÑX/ñ±•z«®,knğÀ|/aã7&„a­†ç?¾}5ä(qEô.¹Ü#Åİ½ $h<wÏC(µ!p{¢]db’‚øwZTÒÁtR Htgã†K“	Í%xñöÕùûÏÙâ)ˆ©¨uÅŒ49Ã¢F’*°éV®,r¤.²ÁØ‘º>fôHM{7âGºIk:ì’·CR×=8Š¤®…GR&D’ÔåØ±$5õŞ£I¶öjØª‘)sTîy¥ééU±X¨øß×‹ùò{…se99|wT„OÜòî?d:UYZcZÔi™n¾‡OW_[_,PÜüöüX ² µG½êTFô9Úª^ÍŠ•â‘®V5ÎuÃpQ¿G8‚ju‰«ñ-Ûu¢3jiSÌÔ%v·è2;°S®53y=ù}™;Ú5£”©½V";ËËy­Ò¬â™~XRó“Ú×òRmA®ò’åU´\‡rÒ;5å7ƒÀß PK    xœFn°X*ÿ   Û  &   SwitchEx/nbproject/genfiles.properties}=OÃ0†÷Jı'1×4ÍÇ€„hXãÅ¹4Çì5*¨ÀbKçÇ÷¼z«AéZ|vZÔÈ(öOû$¾I±©Ê2Š×«ó³—Nõ|(N±ÎvòÀ£&ß-P±ÍRLŠè6ùND"-Ö«+xn•‡Fi‚pj¨F@x$¾#4~Sá4{8Ü[`‡òd‹æH”#rÈ+ÂÈ²ô0ÇØ¨®×s–It°`,ÕŠ©€;@‡#Ô¤‰C'€ÌtÌâ¥5z'ã¬:Yë`´CĞ˜ªwö•$_ŸüÕæïôe¹,Ò¤,¶ÿğ—]çåX4ß»şPK
+     İVoL               SwitchEx/nbproject/private/PK
+     «VoL            ,   SwitchEx/nbproject/private/config.propertiesPK    «VoL!Vª‡   º   -   SwitchEx/nbproject/private/private.propertiesM¹
+Ã0{ƒe	©BÀE:E İ6ki-dt±:Bş>»p;3¼§¢OÖ1Ä ™OE*ƒ 9qĞÓB.o`%ÙíJTæjDGI¸Yşî´f–bb)–3,ıhz\?]dDCòóÖ!ŞRzR!Äw$oƒA|q¹3…]àgÄ¹Z§cãğPK    İVoLV÷¥v‹   õ   &   SwitchEx/nbproject/private/private.xmlA
+Â0E÷‚wÙ§c]‰$vç	ô µ1RgB’6ß(”BWıËÏ¯›Ï»#†è˜Œ¬«HßY#¯—³:Èæ´İhø…]R>¸±M(
+FÑÈgJşs®Ó[ŠaA@-‹G”höHêázŒë5ƒS3ûÉõ÷ÙÀƒ‡Éóîw|ù£t_PK    «VoLE?Äˆ  «	  %   SwitchEx/nbproject/project.properties¥UMËÔ0¾úz7¢'zTPP~€ H¶™n£iR2Ißw‘ıïNÒ¤İwÜË6ÏLæó™‰0Æzá•5|t¶DevŒØjwêê¦W†ƒTŞº¦¯©—Oëk…¾¹¦ç‚áBë#ı›Q ®nƒƒoşŞ¥%ß'<È,G.•;<ãf>of}2:Zµ³U¯¼†æÓòmÿúşT6‘”áN¸ı t]ÍnZ-gãÅõì(Îõà¾ÕA6=yÄŠI<N_uC]=`Ÿ{…Œ@KåÜ3:8ì’İõ`˜ïQê?Ie­a@¾È^Ré+k.,¢¢{Y±w6Y%†üÑè=kí0*Lì„2èS )çQøÁ}¬£ò¤;OÙôà`	÷¸è6jg¬ƒ"ò€şz‘£´Túä†Ú_»1KSğ_E>€¡ˆ-ÃZÕís•¡ç(T	Û°Û£¡Â+K}pÂàhAF’_ FúhÛ_@äšEkrßëŠÑïáoâø
+²âší¥ö™ìƒCG¦»à"±Eµ=ÃŞ-ÙØÌ;Ê¦sv`’šàÔ6¤\~
+Gş	áÂµ½š`%éÿ02ZLõùH®¨ñsîF™4¾ÄFBÚ–ä§ª¯«4†ò¨N®+³LX]‘]©IÇ²œ¢¥v½’ü4
+Z	£HôN,e¶£²Q[YºÁìË…Å@f¼nGn3(\ÍãÄİºËN{Ë!«ç	lòçñäü1²â¶Í‹ä‚&‡c[7c¼¤_i”RÅ|…Åš#Iğ}yVhâ$ímêîœå‚5V	÷çw¹™¶Â]âŞœ¡”š„¿€‘v‘OæÓ³²
+Â2Ã¥•+|G·í]z,(İA¨<Ëq‚†G£^¸ı,jÕÅúuŠn,§¡#xAïg—ù®éşşõç—›

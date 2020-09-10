@@ -1,0 +1,805 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+*** GENERATED FROM project.xml - DO NOT EDIT  ***
+***         EDIT ../build.xml INSTEAD         ***
+
+For the purpose of easier reading the script
+is divided into following sections:
+
+  - initialization
+  - compilation
+  - jar
+  - execution
+  - debugging
+  - javadoc
+  - test compilation
+  - test execution
+  - test debugging
+  - applet
+  - cleanup
+
+        -->
+<project xmlns:j2seproject1="http://www.netbeans.org/ns/j2se-project/1" xmlns:j2seproject3="http://www.netbeans.org/ns/j2se-project/3" xmlns:jaxrpc="http://www.netbeans.org/ns/j2se-project/jax-rpc" basedir=".." default="default" name="PrisonTest_Student_7_6-impl">
+    <fail message="Please build using Ant 1.8.0 or higher.">
+        <condition>
+            <not>
+                <antversion atleast="1.8.0"/>
+            </not>
+        </condition>
+    </fail>
+    <target depends="test,jar,javadoc" description="Build and test whole project." name="default"/>
+    <!-- 
+                ======================
+                INITIALIZATION SECTION 
+                ======================
+            -->
+    <target name="-pre-init">
+        <!-- Empty placeholder for easier customization. -->
+        <!-- You can override this target in the ../build.xml file. -->
+    </target>
+    <target depends="-pre-init" name="-init-private">
+        <property file="nbproject/private/config.properties"/>
+        <property file="nbproject/private/configs/${config}.properties"/>
+        <property file="nbproject/private/private.properties"/>
+    </target>
+    <target depends="-pre-init,-init-private" name="-init-user">
+        <property file="${user.properties.file}"/>
+        <!-- The two properties below are usually overridden -->
+        <!-- by the active platform. Just a fallback. -->
+        <property name="default.javac.source" value="1.4"/>
+        <property name="default.javac.target" value="1.4"/>
+    </target>
+    <target depends="-pre-init,-init-private,-init-user" name="-init-project">
+        <property file="nbproject/configs/${config}.properties"/>
+        <property file="nbproject/project.properties"/>
+    </target>
+    <target depends="-pre-init,-init-private,-init-user,-init-project,-init-macrodef-property" name="-do-init">
+        <property name="platform.java" value="${java.home}/bin/java"/>
+        <available file="${manifest.file}" property="manifest.available"/>
+        <condition property="splashscreen.available">
+            <and>
+                <not>
+                    <equals arg1="${application.splash}" arg2="" trim="true"/>
+                </not>
+                <available file="${application.splash}"/>
+            </and>
+        </condition>
+        <condition property="main.class.available">
+            <and>
+                <isset property="main.class"/>
+                <not>
+                    <equals arg1="${main.class}" arg2="" trim="true"/>
+                </not>
+            </and>
+        </condition>
+        <condition property="profile.available">
+            <and>
+                <isset property="javac.profile"/>
+                <length length="0" string="${javac.profile}" when="greater"/>
+                <matches pattern="1\.[89](\..*)?" string="${javac.source}"/>
+            </and>
+        </condition>
+        <condition property="do.archive">
+            <or>
+                <not>
+                    <istrue value="${jar.archive.disabled}"/>
+                </not>
+                <istrue value="${not.archive.disabled}"/>
+            </or>
+        </condition>
+        <condition property="do.mkdist">
+            <and>
+                <isset property="do.archive"/>
+                <isset property="libs.CopyLibs.classpath"/>
+                <not>
+                    <istrue value="${mkdist.disabled}"/>
+                </not>
+            </and>
+        </condition>
+        <condition property="do.archive+manifest.available">
+            <and>
+                <isset property="manifest.available"/>
+                <istrue value="${do.archive}"/>
+            </and>
+        </condition>
+        <condition property="do.archive+main.class.available">
+            <and>
+                <isset property="main.class.available"/>
+                <istrue value="${do.archive}"/>
+            </and>
+        </condition>
+        <condition property="do.archive+splashscreen.available">
+            <and>
+                <isset property="splashscreen.available"/>
+                <istrue value="${do.archive}"/>
+            </and>
+        </condition>
+        <condition property="do.archive+profile.available">
+            <and>
+                <isset property="profile.available"/>
+                <istrue value="${do.archive}"/>
+            </and>
+        </condition>
+        <condition property="have.tests">
+            <or>
+                <available file="${test.src.dir}"/>
+            </or>
+        </condition>
+        <condition property="have.sources">
+            <or>
+                <available file="${src.dir}"/>
+            </or>
+        </condition>
+        <condition property="netbeans.home+have.tests">
+            <and>
+                <isset property="netbeans.home"/>
+                <isset property="have.tests"/>
+            </and>
+        </condition>
+        <condition property="no.javadoc.preview">
+            <and>
+                <isset property="javadoc.preview"/>
+                <isfalse value="${javadoc.preview}"/>
+            </and>
+        </condition>
+        <property name="run.jvmargs" value=""/>
+        <property name="run.jvmargs.ide" value=""/>
+        <property name="javac.compilerargs" value=""/>
+        <property name="work.dir" value="${basedir}"/>
+        <condition property="no.deps">
+            <and>
+                <istrue value="${no.dependencies}"/>
+            </and>
+        </condition>
+        <property name="javac.debug" value="true"/>
+        <property name="javadoc.preview" value="true"/>
+        <property name="application.args" value=""/>
+        <property name="source.encoding" value="${file.encoding}"/>
+        <property name="runtime.encoding" value="${source.encoding}"/>
+        <condition property="javadoc.encoding.used" value="${javadoc.encoding}">
+            <and>
+                <isset property="javadoc.encoding"/>
+                <not>
+                    <equals arg1="${javadoc.encoding}" arg2=""/>
+                </not>
+            </and>
+        </condition>
+        <property name="javadoc.encoding.used" value="${source.encoding}"/>
+        <property name="includes" value="**"/>
+        <property name="excludes" value=""/>
+        <property name="do.depend" value="false"/>
+        <condition property="do.depend.true">
+            <istrue value="${do.depend}"/>
+        </condition>
+        <path id="endorsed.classpath.path" path="${endorsed.classpath}"/>
+        <condition else="" property="endorsed.classpath.cmd.line.arg" value="-Xbootclasspath/p:'${toString:endorsed.classpath.path}'">
+            <and>
+                <isset property="endorsed.classpath"/>
+                <not>
+                    <equals arg1="${endorsed.classpath}" arg2="" trim="true"/>
+                </not>
+            </and>
+        </condition>
+        <condition else="" property="javac.profile.cmd.line.arg" value="-profile ${javac.profile}">
+            <isset property="profile.available"/>
+        </condition>
+        <condition else="false" property="jdkBug6558476">
+            <and>
+                <matches pattern="1\.[56]" string="${java.specification.version}"/>
+                <not>
+                    <os family="unix"/>
+                </not>
+            </and>
+        </condition>
+        <condition else="false" property="javac.fork">
+            <or>
+                <istrue value="${jdkBug6558476}"/>
+                <istrue value="${javac.external.vm}"/>
+            </or>
+        </condition>
+        <property name="jar.index" value="false"/>
+        <property name="jar.index.metainf" value="${jar.index}"/>
+        <property name="copylibs.rebase" value="true"/>
+        <available file="${meta.inf.dir}/persistence.xml" property="has.persistence.xml"/>
+        <condition property="junit.available">
+            <or>
+                <available classname="org.junit.Test" classpath="${run.test.classpath}"/>
+                <available classname="junit.framework.Test" classpath="${run.test.classpath}"/>
+            </or>
+        </condition>
+        <condition property="testng.available">
+            <available classname="org.testng.annotations.Test" classpath="${run.test.classpath}"/>
+        </condition>
+        <condition property="junit+testng.available">
+            <and>
+                <istrue value="${junit.available}"/>
+                <istrue value="${testng.available}"/>
+            </and>
+        </condition>
+        <condition else="testng" property="testng.mode" value="mixed">
+            <istrue value="${junit+testng.available}"/>
+        </condition>
+        <condition else="" property="testng.debug.mode" value="-mixed">
+            <istrue value="${junit+testng.available}"/>
+        </condition>
+        <property name="java.failonerror" value="true"/>
+    </target>
+    <target name="-post-init">
+        <!-- Empty placeholder for easier customization. -->
+        <!-- You can override this target in the ../build.xml file. -->
+    </target>
+    <target depends="-pre-init,-init-private,-init-user,-init-project,-do-init" name="-init-check">
+        <fail unless="src.dir">Must set src.dir</fail>
+        <fail unless="test.src.dir">Must set test.src.dir</fail>
+        <fail unless="build.dir">Must set build.dir</fail>
+        <fail unless="dist.dir">Must set dist.dir</fail>
+        <fail unless="build.classes.dir">Must set build.classes.dir</fail>
+        <fail unless="dist.javadoc.dir">Must set dist.javadoc.dir</fail>
+        <fail unless="build.test.classes.dir">Must set build.test.classes.dir</fail>
+        <fail unless="build.test.results.dir">Must set build.test.results.dir</fail>
+        <fail unless="build.classes.excludes">Must set build.classes.excludes</fail>
+        <fail unless="dist.jar">Must set dist.jar</fail>
+    </target>
+    <target name="-init-macrodef-property">
+        <macrodef name="property" uri="http://www.netbeans.org/ns/j2se-project/1">
+            <attribute name="name"/>
+            <attribute name="value"/>
+            <sequential>
+                <property name="@{name}" value="${@{value}}"/>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-ap-cmdline-properties" if="ap.supported.internal" name="-init-macrodef-javac-with-processors">
+        <macrodef name="javac" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${src.dir}" name="srcdir"/>
+            <attribute default="${build.classes.dir}" name="destdir"/>
+            <attribute default="${javac.classpath}" name="classpath"/>
+            <attribute default="${javac.processorpath}" name="processorpath"/>
+            <attribute default="${build.generated.sources.dir}/ap-source-output" name="apgeneratedsrcdir"/>
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="${javac.debug}" name="debug"/>
+            <attribute default="${empty.dir}" name="sourcepath"/>
+            <attribute default="${empty.dir}" name="gensrcdir"/>
+            <element name="customize" optional="true"/>
+            <sequential>
+                <property location="${build.dir}/empty" name="empty.dir"/>
+                <mkdir dir="${empty.dir}"/>
+                <mkdir dir="@{apgeneratedsrcdir}"/>
+                <javac debug="@{debug}" deprecation="${javac.deprecation}" destdir="@{destdir}" encoding="${source.encoding}" excludes="@{excludes}" fork="${javac.fork}" includeantruntime="false" includes="@{includes}" source="${javac.source}" sourcepath="@{sourcepath}" srcdir="@{srcdir}" target="${javac.target}" tempdir="${java.io.tmpdir}">
+                    <src>
+                        <dirset dir="@{gensrcdir}" erroronmissingdir="false">
+                            <include name="*"/>
+                        </dirset>
+                    </src>
+                    <classpath>
+                        <path path="@{classpath}"/>
+                    </classpath>
+                    <compilerarg line="${endorsed.classpath.cmd.line.arg}"/>
+                    <compilerarg line="${javac.profile.cmd.line.arg}"/>
+                    <compilerarg line="${javac.compilerargs}"/>
+                    <compilerarg value="-processorpath"/>
+                    <compilerarg path="@{processorpath}:${empty.dir}"/>
+                    <compilerarg line="${ap.processors.internal}"/>
+                    <compilerarg line="${annotation.processing.processor.options}"/>
+                    <compilerarg value="-s"/>
+                    <compilerarg path="@{apgeneratedsrcdir}"/>
+                    <compilerarg line="${ap.proc.none.internal}"/>
+                    <customize/>
+                </javac>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-ap-cmdline-properties" name="-init-macrodef-javac-without-processors" unless="ap.supported.internal">
+        <macrodef name="javac" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${src.dir}" name="srcdir"/>
+            <attribute default="${build.classes.dir}" name="destdir"/>
+            <attribute default="${javac.classpath}" name="classpath"/>
+            <attribute default="${javac.processorpath}" name="processorpath"/>
+            <attribute default="${build.generated.sources.dir}/ap-source-output" name="apgeneratedsrcdir"/>
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="${javac.debug}" name="debug"/>
+            <attribute default="${empty.dir}" name="sourcepath"/>
+            <attribute default="${empty.dir}" name="gensrcdir"/>
+            <element name="customize" optional="true"/>
+            <sequential>
+                <property location="${build.dir}/empty" name="empty.dir"/>
+                <mkdir dir="${empty.dir}"/>
+                <javac debug="@{debug}" deprecation="${javac.deprecation}" destdir="@{destdir}" encoding="${source.encoding}" excludes="@{excludes}" fork="${javac.fork}" includeantruntime="false" includes="@{includes}" source="${javac.source}" sourcepath="@{sourcepath}" srcdir="@{srcdir}" target="${javac.target}" tempdir="${java.io.tmpdir}">
+                    <src>
+                        <dirset dir="@{gensrcdir}" erroronmissingdir="false">
+                            <include name="*"/>
+                        </dirset>
+                    </src>
+                    <classpath>
+                        <path path="@{classpath}"/>
+                    </classpath>
+                    <compilerarg line="${endorsed.classpath.cmd.line.arg}"/>
+                    <compilerarg line="${javac.profile.cmd.line.arg}"/>
+                    <compilerarg line="${javac.compilerargs}"/>
+                    <customize/>
+                </javac>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-macrodef-javac-with-processors,-init-macrodef-javac-without-processors" name="-init-macrodef-javac">
+        <macrodef name="depend" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${src.dir}" name="srcdir"/>
+            <attribute default="${build.classes.dir}" name="destdir"/>
+            <attribute default="${javac.classpath}" name="classpath"/>
+            <sequential>
+                <depend cache="${build.dir}/depcache" destdir="@{destdir}" excludes="${excludes}" includes="${includes}" srcdir="@{srcdir}">
+                    <classpath>
+                        <path path="@{classpath}"/>
+                    </classpath>
+                </depend>
+            </sequential>
+        </macrodef>
+        <macrodef name="force-recompile" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${build.classes.dir}" name="destdir"/>
+            <sequential>
+                <fail unless="javac.includes">Must set javac.includes</fail>
+                <pathconvert pathsep="${line.separator}" property="javac.includes.binary">
+                    <path>
+                        <filelist dir="@{destdir}" files="${javac.includes}"/>
+                    </path>
+                    <globmapper from="*.java" to="*.class"/>
+                </pathconvert>
+                <tempfile deleteonexit="true" property="javac.includesfile.binary"/>
+                <echo file="${javac.includesfile.binary}" message="${javac.includes.binary}"/>
+                <delete>
+                    <files includesfile="${javac.includesfile.binary}"/>
+                </delete>
+                <delete>
+                    <fileset file="${javac.includesfile.binary}"/>
+                </delete>
+            </sequential>
+        </macrodef>
+    </target>
+    <target if="${junit.available}" name="-init-macrodef-junit-init">
+        <condition else="false" property="nb.junit.batch" value="true">
+            <and>
+                <istrue value="${junit.available}"/>
+                <not>
+                    <isset property="test.method"/>
+                </not>
+            </and>
+        </condition>
+        <condition else="false" property="nb.junit.single" value="true">
+            <and>
+                <istrue value="${junit.available}"/>
+                <isset property="test.method"/>
+            </and>
+        </condition>
+    </target>
+    <target name="-init-test-properties">
+        <property name="test.binaryincludes" value="&lt;nothing&gt;"/>
+        <property name="test.binarytestincludes" value=""/>
+        <property name="test.binaryexcludes" value=""/>
+    </target>
+    <target if="${nb.junit.single}" name="-init-macrodef-junit-single" unless="${nb.junit.batch}">
+        <macrodef name="junit" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element name="customize" optional="true"/>
+            <sequential>
+                <property name="junit.forkmode" value="perTest"/>
+                <junit dir="${work.dir}" errorproperty="tests.failed" failureproperty="tests.failed" fork="true" forkmode="${junit.forkmode}" showoutput="true" tempdir="${build.dir}">
+                    <test methods="@{testmethods}" name="@{testincludes}" todir="${build.test.results.dir}"/>
+                    <syspropertyset>
+                        <propertyref prefix="test-sys-prop."/>
+                        <mapper from="test-sys-prop.*" to="*" type="glob"/>
+                    </syspropertyset>
+                    <formatter type="brief" usefile="false"/>
+                    <formatter type="xml"/>
+                    <jvmarg value="-ea"/>
+                    <customize/>
+                </junit>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-test-properties" if="${nb.junit.batch}" name="-init-macrodef-junit-batch" unless="${nb.junit.single}">
+        <macrodef name="junit" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element name="customize" optional="true"/>
+            <sequential>
+                <property name="junit.forkmode" value="perTest"/>
+                <junit dir="${work.dir}" errorproperty="tests.failed" failureproperty="tests.failed" fork="true" forkmode="${junit.forkmode}" showoutput="true" tempdir="${build.dir}">
+                    <batchtest todir="${build.test.results.dir}">
+                        <fileset dir="${test.src.dir}" excludes="@{excludes},${excludes}" includes="@{includes}">
+                            <filename name="@{testincludes}"/>
+                        </fileset>
+                        <fileset dir="${build.test.classes.dir}" excludes="@{excludes},${excludes},${test.binaryexcludes}" includes="${test.binaryincludes}">
+                            <filename name="${test.binarytestincludes}"/>
+                        </fileset>
+                    </batchtest>
+                    <syspropertyset>
+                        <propertyref prefix="test-sys-prop."/>
+                        <mapper from="test-sys-prop.*" to="*" type="glob"/>
+                    </syspropertyset>
+                    <formatter type="brief" usefile="false"/>
+                    <formatter type="xml"/>
+                    <jvmarg value="-ea"/>
+                    <customize/>
+                </junit>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-macrodef-junit-init,-init-macrodef-junit-single, -init-macrodef-junit-batch" if="${junit.available}" name="-init-macrodef-junit"/>
+    <target if="${testng.available}" name="-init-macrodef-testng">
+        <macrodef name="testng" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element name="customize" optional="true"/>
+            <sequential>
+                <condition else="" property="testng.methods.arg" value="@{testincludes}.@{testmethods}">
+                    <isset property="test.method"/>
+                </condition>
+                <union id="test.set">
+                    <fileset dir="${test.src.dir}" excludes="@{excludes},**/*.xml,${excludes}" includes="@{includes}">
+                        <filename name="@{testincludes}"/>
+                    </fileset>
+                </union>
+                <taskdef classname="org.testng.TestNGAntTask" classpath="${run.test.classpath}" name="testng"/>
+                <testng classfilesetref="test.set" failureProperty="tests.failed" listeners="org.testng.reporters.VerboseReporter" methods="${testng.methods.arg}" mode="${testng.mode}" outputdir="${build.test.results.dir}" suitename="PrisonTest_Student_7_6" testname="TestNG tests" workingDir="${work.dir}">
+                    <xmlfileset dir="${build.test.classes.dir}" includes="@{testincludes}"/>
+                    <propertyset>
+                        <propertyref prefix="test-sys-prop."/>
+                        <mapper from="test-sys-prop.*" to="*" type="glob"/>
+                    </propertyset>
+                    <customize/>
+                </testng>
+            </sequential>
+        </macrodef>
+    </target>
+    <target name="-init-macrodef-test-impl">
+        <macrodef name="test-impl" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element implicit="true" name="customize" optional="true"/>
+            <sequential>
+                <echo>No tests executed.</echo>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-macrodef-junit" if="${junit.available}" name="-init-macrodef-junit-impl">
+        <macrodef name="test-impl" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element implicit="true" name="customize" optional="true"/>
+            <sequential>
+                <j2seproject3:junit excludes="@{excludes}" includes="@{includes}" testincludes="@{testincludes}" testmethods="@{testmethods}">
+                    <customize/>
+                </j2seproject3:junit>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-macrodef-testng" if="${testng.available}" name="-init-macrodef-testng-impl">
+        <macrodef name="test-impl" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element implicit="true" name="customize" optional="true"/>
+            <sequential>
+                <j2seproject3:testng excludes="@{excludes}" includes="@{includes}" testincludes="@{testincludes}" testmethods="@{testmethods}">
+                    <customize/>
+                </j2seproject3:testng>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-macrodef-test-impl,-init-macrodef-junit-impl,-init-macrodef-testng-impl" name="-init-macrodef-test">
+        <macrodef name="test" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <sequential>
+                <j2seproject3:test-impl excludes="@{excludes}" includes="@{includes}" testincludes="@{testincludes}" testmethods="@{testmethods}">
+                    <customize>
+                        <classpath>
+                            <path path="${run.test.classpath}"/>
+                        </classpath>
+                        <jvmarg line="${endorsed.classpath.cmd.line.arg}"/>
+                        <jvmarg line="${run.jvmargs}"/>
+                        <jvmarg line="${run.jvmargs.ide}"/>
+                    </customize>
+                </j2seproject3:test-impl>
+            </sequential>
+        </macrodef>
+    </target>
+    <target if="${junit.available}" name="-init-macrodef-junit-debug" unless="${nb.junit.batch}">
+        <macrodef name="junit-debug" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element name="customize" optional="true"/>
+            <sequential>
+                <property name="junit.forkmode" value="perTest"/>
+                <junit dir="${work.dir}" errorproperty="tests.failed" failureproperty="tests.failed" fork="true" forkmode="${junit.forkmode}" showoutput="true" tempdir="${build.dir}">
+                    <test methods="@{testmethods}" name="@{testincludes}" todir="${build.test.results.dir}"/>
+                    <syspropertyset>
+                        <propertyref prefix="test-sys-prop."/>
+                        <mapper from="test-sys-prop.*" to="*" type="glob"/>
+                    </syspropertyset>
+                    <formatter type="brief" usefile="false"/>
+                    <formatter type="xml"/>
+                    <jvmarg value="-ea"/>
+                    <jvmarg line="${debug-args-line}"/>
+                    <jvmarg value="-Xrunjdwp:transport=${debug-transport},address=${jpda.address}"/>
+                    <customize/>
+                </junit>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-test-properties" if="${nb.junit.batch}" name="-init-macrodef-junit-debug-batch">
+        <macrodef name="junit-debug" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element name="customize" optional="true"/>
+            <sequential>
+                <property name="junit.forkmode" value="perTest"/>
+                <junit dir="${work.dir}" errorproperty="tests.failed" failureproperty="tests.failed" fork="true" forkmode="${junit.forkmode}" showoutput="true" tempdir="${build.dir}">
+                    <batchtest todir="${build.test.results.dir}">
+                        <fileset dir="${test.src.dir}" excludes="@{excludes},${excludes}" includes="@{includes}">
+                            <filename name="@{testincludes}"/>
+                        </fileset>
+                        <fileset dir="${build.test.classes.dir}" excludes="@{excludes},${excludes},${test.binaryexcludes}" includes="${test.binaryincludes}">
+                            <filename name="${test.binarytestincludes}"/>
+                        </fileset>
+                    </batchtest>
+                    <syspropertyset>
+                        <propertyref prefix="test-sys-prop."/>
+                        <mapper from="test-sys-prop.*" to="*" type="glob"/>
+                    </syspropertyset>
+                    <formatter type="brief" usefile="false"/>
+                    <formatter type="xml"/>
+                    <jvmarg value="-ea"/>
+                    <jvmarg line="${debug-args-line}"/>
+                    <jvmarg value="-Xrunjdwp:transport=${debug-transport},address=${jpda.address}"/>
+                    <customize/>
+                </junit>
+            </sequential>
+        </macrodef>
+    </target>
+    <target depends="-init-macrodef-junit-debug,-init-macrodef-junit-debug-batch" if="${junit.available}" name="-init-macrodef-junit-debug-impl">
+        <macrodef name="test-debug-impl" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${includes}" name="includes"/>
+            <attribute default="${excludes}" name="excludes"/>
+            <attribute default="**" name="testincludes"/>
+            <attribute default="" name="testmethods"/>
+            <element implicit="true" name="customize" optional="true"/>
+            <sequential>
+                <j2seproject3:junit-debug excludes="@{excludes}" includes="@{includes}" testincludes="@{testincludes}" testmethods="@{testmethods}">
+                    <customize/>
+                </j2seproject3:junit-debug>
+            </sequential>
+        </macrodef>
+    </target>
+    <target if="${testng.available}" name="-init-macrodef-testng-debug">
+        <macrodef name="testng-debug" uri="http://www.netbeans.org/ns/j2se-project/3">
+            <attribute default="${main.class}" name="testClass"/>
+            <attribute default="" name="testMethod"/>
+            <element name="customize2" optional="true"/>
+            <sequential>
+                <condition else="-testclass @{testClass}" property="test.class.or.method" value="-methods @{testClass}.@{testMethod}">
+                    <isset property="test.method"/>
+                </condition>
+                <condition else="-suitename PrisonTest_Student_7_6 -testname @{testClass} ${test.class.or.method}" property="testng.cmd.args" value="@{testClass}">
+                    <matches pattern=".*\.xml" string="@{testClass}"/>
+                </condition>
+                <delete dir="${build.test.results.dir}" quiet="true"/>
+                <mkdir dir="${build.test.results.dir}"/>
+                <j2seproject3:debug classname="org.testng.TestNG" classpath="${debug.test.classpath}">
+                    <customize>
+                        <customize2/>
+                        <jvmarg value="-ea"/>
+                        <arg line="${testng.debug.mode}"/>
+                        <arg line="-d ${build.test.results.dir}"/>
+                        <arg line="-listener org.testng.reporters.VerboseReporter"/>
+                        <arg line="${testng.cmd.args}"/>
+                    </custompackage prisontest;
+
+public class PrisonTest {
+    public static void main(String[] args){
+
+        Prisoner bubba = new Prisoner("Bubba", 2.08, 4, "01");
+        Cell cell = new Cell("01", false, 2389);
+        bubba.display(true);
+        
+        cell.setIsOpen(2389);
+        cell.setIsOpen(2389);
+        cell.setIsOpen(2389);
+        
+        
+        
+    }
+}
+                                                                                                                                g…ΐι*"κμ…§!"7ΧΟ4μί}—Lά|y†€ΡƒΘ'£ο9—^~υ@B®£Qg¨Φ²JήΒΨΟR'—PXς†ΰE‘>΅€β‘+Π.{ϋ{Σ®­έh‹¤ςµψ€χίFώ*@™ΔjfφUϊ­“'3SΫDΦ©΅β"v-M€xνυΤ/τl9SΠ†}¤fÿm"θO‡5L°²2"?jΘ@06d —Λ@Ώ³P§b#PΝ([Epo @­•ιcoNCl(λ3ΥÿXΐ7vV„·Ϋ§Ε€hs=Σ©9"ΣΔ¶w> K0\Χª‰αYÒΥρDΐ) Ό|~ΜjGΎiΨΎDC·ΣζΦΞτύ§ΏΒD`³²΅oΒ`¨ςΛiwΧ6| P4rKU|jΌxªκLΟ7r8Ò/ζ1_4sζqοΑwΈAn4Φo8Μ,kElX>ƒBΖv―ωlyΛξ¬[h¬ν²h=[Uφ¦g	κS“7§6K2Ήyο›bo'a›”³i‚!Έ…™et„*β‰ψjE+ €Ϊφ΄€ά½LXOΫρ:Κz|Xη― ςΊVΚΙ‡ΥΔΜξΕωZ‰³Ή©–tΌΥφ³
+ΙT€\bΚΘSZmKβm΄εhG»Ζθξa b¬ΞδJxF‰•ªQ^TΩ·\,…β`mΏ>ω"°JSζJ³‡ΎZ5πμϊU―α«™ξ9t„τƒι"μΣ±yη{.Εy‹¤ζ"³ήΠ8lΝ)VόVbξ(wδ7Α’uυρΏηwl$Gg†J%λφόbxΌφ, tgqΑ Χ‘αDRτΜXz¶Mj°U΅ªD•ylKμl²Ϊ‹|ΎRª³Άή0~ΐH;"–/β8―,ZPK‚Yθ!P¤,"Ώύ‘ϊ[ªsΉrcψ£¬t!½λ£hLx?π¶¨Έx§βΉz\|-JΗΜ„Ζvδ!mPpχ]GXΐtΊxρB4ΩaΝ9D²~E6gU]ª°y*;Κg©βD	 [o?ΤjΒv*4¨ ”[»_S©°=«„¬ώόη>n±ΞΞFd ™ζ6ΐ1Οok­	"»e`	™e&tT,K‘U.t °+P1μ*Φ¥V9΄Δ~›M5±γ½νS.βοtΟL6θν"F¤>=P†	^³ΚUΞΥ;£lή[®„ςϋϊΞΆYg}vΚΉφ$Ο ΎaόΙx­ξFEHP @τ‚ώφG
+τFΎΦ”π3Zωί{χν°‘Ò4ό7„jτΔ(v‹ωna~nF”όF)PΥ½γΞ;‘]xH!Lm΅qΥR£pςΜ)Ύπ†Η#Ϊ΅'EcΎκΩ vΦ{OOΪ'ιψ&ϊ’¶4 Β³z"Lώ5ΕΡM(%YΨµφΌ£­=½FηήF¨}Εiφ·sηN°|µΝΑη/_"]Zµ4\χΠgΦS
+2zΔ%Q¬5–ΰSΕYΝb>µ²αPΦPΌΦ•}«shΑγdΎΏ††jtΓ½±¨΄λγ΅ƒϊ¤@«•M9ΤΧi£;]mΊΨ,£«Έz€¤δζ-ΧΏNώς”Z™JpΘ―LζΉ	y$Bΰ%‚A•°ªZvqΛjή εjN,Inll€+”j¤>ν *xΏΪ¨ΩΛnª²A§¶ή&’oUnΰΘΌεtνΪ²Τ½“t½Έ¦	΅Gy–X΅Q6YΒ}Ξ―lαr^Ά g1Ωbφ1­ίQsΤνΔΥ>\@qQψ£Bdÿ2γ5EΦ"ΟgF-•µ%h¤65―€ΚΤZλ±Y;H³\Y@®“+‹*o4GÒY%δΈπ
+Sb\hΛκαΠdπYÿϋ[ίagμΑ£oYΧθΝ3™Dέέµ-άxφ ] δ­›¨ΝΠ{—Πs]χ­{Σε3§SMYfT40\\ΛΩπ~U σR{sQςf“\d$θ ΐ[;ΰ+¶Μ@>ΐ>®{SΛ³’AΙνΫ·5ΊI„3c³¬ΕΫάÒξ?φ	
+IφΰΌ&‚πβΣ›o¤qΈ•¨\6s¤+–"δ—mΊε
+` ‡rθΕΖ„«›PwΤ¦MρTT λi|«Ύ’¨kάυ‘ΫSqAµέΌπ<]γr±_-―q±IΧθ΅ΫH4b#SΓ"ΣΦÒ”QN½8O Ά’΅U¨CΠW?1Ά`«,έ{e„Ϋ^:ώστξι‹Ρq±γέ£ΦYF” jΘΩl^ΧLϊ¤Ν„ΠPΒΨχ’"‰X8”‹Ε<&„2x#ηoΡΦΰN+D|K@’  οζζ΅”αΜΖΙ*ªF·Ai%ΕfλδµHδΩ>ΌμfΕ'φZεΖvΘ-°Ηl ½Q
+;QεlG£³Ε‡ΆΝQg–ρbΔΦΰ†[ƒΝ,‘kιyRΤ,VΛΤBMΧPΛ]eK°ΕΨγ*η«Ψ	Iwιξ|T©h +\Ο‡2Σkζ
+™ν0]g ΐY|nΘblµ[σGo?°-³#k€Λ¬#ςα:μs*Β5	IΟQΦJm•=9yJNΒθqμLKΟ΄σ*‰3ª+XgiΒ–™bΖΞq©ύ*^΅Θ£eΟK±ƒ-wγ„ΰSάΟ’Υ<ƒΘ΄'½¦ ‚”(‰ϋγβLeσ(a§;NΞΝNΕΝεΤΡ+Vΐ8ΐ–εΨςcψ›^I¨ΠY‚A¬3@jΚΎΑ­›ΘΖΥ  ΞI|™Αf»™/cα.ΖdΣΚY0“θΏFt~N™l¶l^¨ΓΆ0/Τ‚-ƒ«$l¤,ÒS$’©5O“:©κ„ΧJ@νΟrsP  	ύIDAT"2]DΠ\Ϋj»έ,τμθϋ(JW5―ΗGG!{κΰVd―ΜS™GΌ ®¤oο‡ ®i‡Φ†pάnE:]iΧΉΟ…‚’±Ζ3°Gε΅ΩλC¶δbνεΘ[ΐ•0ίΈξΟ½ΒΎÒG7m‚EΟL5ΤFΈQ9λn¶κµ‡­χ5ηY¨ΔηPΐ©qOΝ Κ{+Υ³λmvΜZyDβ½®\]l~~y¥xPD„!ΎbΉ!p¤vψvά'1–Η—ªύ‹ 0ΖΠ­Ω:ύƒΑαyo†ηVή©xD"²΄Ω­ΟΣ©Ω›ι2!eTΧΓB>Χ¥μί“Φ`R«)h>λάΔy,ζ:Q£n'BΫ5Γ‰νXeÿ9φµ¶µ¤ώή"2\—½X΅$n‘h½δ6fΈ›νΓ―Τ$Ϊ‡φΔΞ[DW]CΫtΏΜƒ­`³p…54-e%X‡Ά³ξΜ–]†|aΡRrsύνFn RυΉπkΟ•ωΎήθ&;O7Ξ%Z΅Γ{Γ8|¦\#`?zνλ ήάΓΏEθa±dό |&πόΨeSΦqΌτ&μωwλ3ν°‰ΐ­ΟΆφυΧsΐq―,ƒυϊ<+Τ@	­AiχΉΫ΄"’›CΡ 6£« QΙΞK6ζ9uκ](”Έ!ϋ°¤@©F XΡ;@C Υ#VyήZκ;<τΑp―¥|kύ¦οω,φDΝΩ|O\ΖΣKP΅aª h±g%βa=³‰Yκ΄ΰζn@lΨϊΖΉp7Φ›UΙ>x³­rYO L‡c«m5eφ±Υ¶ΛΘxΰiό›mπϊFΛ²Φηϋή'X«―¥ΰu Ή(³ΞT¥/Εs Ζ9ό±d4μφϋΩfE$ƒοXΒFϊN|&Λ™G7Xa¨p+v%#":6Ω©²ÿ~X.νBδ$¬ΑkRvΊ/‡Ϊe•ƒωfΕΘY΅HuφF'CΔ}όNÿCS†ƒzυ4-I1lΌ®?{¨(Ω±£–0‘\“w•{½½=dτFaw7-QΠ~‡ψ»ΫΧfτΚδ{ΦUΒΑιSGY^Θΐΐώλωνλ  oωΥεΎΐ*¨Κ89Δƒ·6ΑZΐªΑ +»ΘΒT"Ό¦‡ίΝθίΩ½2 ϊ·εαy	y'Ή€YjBÒ²hTΟ=;δό½E¥a ÿt:4RΗ ΛRΩG¦I½ΗyΗΦmι΅OήOΒΦUδ¬μi“sΨμ‹ϊvσUml ηd·–h}λ\sd=ω6uΘ@CC–Ν½zβ8”±HΩ―ζbHς'ί;χΫ5‹P®Ρά‹ιΐΑ}ΡΨΑυ;κUΉZ‡V-βτ¬³P)‘ΓGmÿΓtμΎOeΡ7Σo &{o¨#³¤7β_,Τσ@Jσψ¶ι6gTk	Ού#oz}Ώ—Ώφ^~sγλ`®ώΓ!Υ)Oύ<ϋΎΧ±9JgYWΝ‚―b[‘ΑB&@7w[ΊmΟ­τbΓ€/ΣAρΑίEοmZP°³ΌD~κπXΪΌγ¶ΤΔd1β„NιΦΫ―2΄²ΜHƒÒβyζJβq6EnΧΐΎ―[Χ8AωΌ1l8J”NχΡύτΉt)Π3&bΞiό[¤ MAΨ%οχvΗµ‘«aχσ°φI(ΞΐΉρΦΙΙϊΨά†(ΣLcίuΦσλ‡Ν©Ρ7υ36T>‹Hυάt6ηCψ£ΦCγ;0ςε΅|²>" Μ―όύό< "dμ/—…Ωy~¦ρΣ] \Υ|Ώ_Dfψ¦l²dGWzδs_$ϊnΩSΝπUφχ],µ
+‚”vpχξΤ{…AΝγύιεΧΕhƒ£xΜ§ή}”pύΪ΄Αzmτώζ›oF«›@Θφ4ξƒύI}cΈΎFÒΩg£XΥ~ÿPI¥ά³‡Y—cΡd£<oΎg®]t―σu»ζΈθ›ΓΪECXς/«ΦΛ°¦Xκ΄‡Ό`9(D™ΝζT  uΥγΪrp!	Z\X3 c "΄B;6Εf0Uf½π¶’…ª0ΙBMJυ>ΑΓϋψΰΩuβ­xνη9`γY 0£" –ΝΆΝ8Β]Έη¶’΅­u\[wnϊΖÒΓdªΙ9―τβ0ΏDΥS'9Sζiy1cΨe5›&ό±—¶~Σ)”ρWιGΪΫΣv*T% ³DN;m?Ζ=vβ8€£ϋvcrϋΑTPβ,(γΪ\―imxV.\Έο«CψγgυΨ”zΆ¬€¶9‘Ε:®UΝYκttT¨W†ύ°GΗuΩΥ¬οªjls Φo:`¦}ϊZή­vΤΑΝ½°2GΦ©RM σ¬ΤYό΄PRΓC9¥&'5`ύοF 
+6…ξγ«xνyz XΡ΄c;ηw`'=πΰ~28EΥ[™ηfΡπ°cΎ†µχPn@^[ι Λ²ΌWΜρΪ“(UΕ)"Η'uν­έιΑX8Θ
+ε0ΊώΫ:£kΣ/A
+lZ£+Ζμ,W›yeεΤ$Uψ|ξ‘$
+|υγ3xΜ£yΔώγϊs8¤ψms$»Xψ~~®πQ‘±όΐ{w΄o…+!JΈqP`Ξ·Ε1Δ°LΜVό²¨JÒ–…–{m!£ΐ5–f$!\c¬@+–)πςΓχ½‡l)§:Λª]ΈΖξΎ›nΧ~Ηg³»o\‹σYdKζH«ΰ:πΐlΛ…›‡cΰTOR<,ΟawB9 ‚yP„Β¥Ν­Μ΅ϋt§y¬‰=ΠlΊB-¤.Α‡>ύiζA½ΖgeωApξγ±ν[…’cW+›έιlP-β¥*…›ΖYΥλ ΄Κ½v\Κ@³¤Lν[±΅Άγ³ϋ}χΤ†σΖ665£!C,|ΧΥg‡xγί~ίΝΉατΐ¶όυ+p‚ΐYΧ<ς3xε}πχϋ·ÿzάΘÿzΩ{ω97^6Ώ¦εεz|7β:ΞδίOΧÿρ+PςΔ#Ώ”kΛχ@$v/¬GXΏt(ξeΩό	μ‚ΛΔ{\ΛiΰΫδόύ}Ί~υΈWώίΛGΗτή—D<nΌ†ΟΒÒ„ηϊϋP ηΔ™ΏΓ?όα#`ε›Έ·Ώq§?ό­ÿηοίδΧµέπeO~ÿμ>½ώΧxÿ¬μ¶‚οοC·‰“r9vύΛξ€ηl¨¬Σ#χZeκ±Λz¤r‰“όήοxόη]G΄μ:ο_δΖs^ξ5~    IEND®B`‚€Ή*             f       E            f  f  PreviewAssetData   BaseName:
+  mainRepresentation:
+    serializedVersion: 3
+    name: minoRedo
+    thumbnail:
+      m_Format: 5
+      m_Width: 16
+      m_Height: 16
+      m_RowBytes: 64
+      image data: 1024
+      _typelessdata: 0000000000090909001e1413001f1a20001f1a200024222500392f3000766b6900a2979100b1b0bb00686b7e00434b5a003f455500404652003739450000000000000000ff090909ff160f09ff2d2527ff27241eff261b23ff322d34ff292927ff3c3839ff2e2d28ff57514aff807166ff2d2d35ff04050aff0a06040000000000000000ff060606ff0a0b0dff322828ff88785fff413847ff84766bff181818ff6c5f69ff413a3dff47414dff534843ff262022ff1a1921ff2522290000000000000000ff0d0d0dff37271eff392726ff505040ff8a8d80ffaca6a9ff373933ff463731ff3a2e2aff332520ff9b7d6dff191a1cff322e3cff1d1b1e0000000000000000ff0f0f11ff343523ff6b6d6cff878878ff9a9d96ff151110ff14150fff645955ff241917ff25211eff161615ff1b191aff1e1c1dff19171c0000000000000000ff29301eff444732ff838578ffafb4a0ffb2b2adff7f7f7fff1e1c1dff959283ffa49a99ff28282affb8b7b7ff1e1c1dff222023ff1b181f0000000000000000ff313525ff555741ff595a48ff66684dff141506ff60673eff191718ff8c8e8dff1e191bff4c4243ffb1ae9bff1f1c1dff27252aff1d1b1e0000000000000000ff383a25ff666457ff6c6f52ff16160eff929379ffcac0b4ff1a120fff2b2b2bff272528ff776863ff98907eff2a2021ff29272cff19161d0000000000000000ff5a5e45ff676046ff212218ff1c1c0fff1b140fff9b957bffc7c4a6ff282421ff463d3bffaca291ffa3a289ff281e1fff1e1c21ff27242d0000000000000000ff696e50ff746e5eff666546ff838263ffbbb690ff241917ff181a15ff2b2320ff46362fff696250ffb2ac98ff121011ff1d161bff31272f0000000000000000ff42492bff1e1e14ff959475ff1b1910ff918b7dff191814ff252420ff2f2b28ff53493cff535138ffbdbcb0ff19171aff1d1b20ff271c240000000000000000ff3c492fff6b6d48ff6f684cff35321eff281f1aff2a2521ff322f2cff33302bff231f1effaea59cff332d26ff242426ff1d1b23ff2f242a0000000000000000ff46543aff7f845bff837e54ff9e8d79ff9d9185ff62655aff78725cff545044ff40332aff775d46ff7c746aff322830ff2f2631ff352d380000000000000000ff89a182ffabaf89ffbbc2a6ffafb396ffc5cab6ffc5c1b2ffbdb49cffc2b79effe1ded4ffc4b89cffd3d2ceff342a32ff252130ff2b27340000000000000000ffacbfa3ff8da889ff8ea589ffc0c5afffced1beffc1cab5ffe8e5e2ffe7e9e6ffadada3ffc2bba8ff989689ff3a2d3eff403442ff47456c0000000000000000ffa7bb9fffa0ae94ff8da188ffb1beaaffcad2bdffd8d9d1ffd8d9d1ffc7cac3ff696a5aff3d3d33ff484250ff494441ff534a4eff443a5200000000
+    guid: 2e7cb9eaac39d6649b72f604a077f223
+    path: Assets/minoRedo.jpg
+    localIdentifier: 2800000
+    thumbnailClassID: 28
+    flags: 1
+    scriptClassName: 
+  representations:
+  - serializedVersion: 3
+    name: minoRedo
+    thumbnail:
+      m_Format: 0
+      m_Width: 0
+      m_Height: 0
+      m_RowBytes: 0
+      image data: 0
+      _typelessdata: 
+    guid: 2e7cb9eaac39d6649b72f604a077f223
+    path: 
+    localIdentifier: 21300000
+    thumbnailClassID: 213
+    flags: 1
+    scriptClassName: 
+  labels:
+    m_Labels: []
+  assetImporterClassID: 1006
+  assetBundleFullName:
+    m_AssetBundleName: 
+    m_AssetBundleVariant: 
+  externalReferencesForValidation: []
+AssetInfo_______p                                                                                                                                                                                                                                                                                                                                                                              Ώ §¬„v`dgC%                  ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    &   όινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόξρςόνπςόμξρόινοόζκξόγηλόΰειΰΙΟΡΛ³ΉΌ·Ά¥”{€„kNQSC   :   3   +   "                        ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ       όνπςόπςτόπςτόπστόπστόπσυόπσυόρσυόρσυόρσυόρσυόρσυόςτυόςτυόςτυόςτυόςτυόςτυόςτυόςτυόςτυόςτυξκμξΨΩΪά»ΎΐΒΆ¤‚„†bVXZ=   5   0   +   %                                          ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ          #   #   #   #   #   #   #   #   #   #   #   $   $   $   %   %   &   &   '   (   (   '   "               
+                                                      ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ                             μορ μορ μορ μορ μος νπς νπς νπς νπς νπς νπς νπς νπς νπς νπς μορ ιμο ειμ ΰει Ϊΰε Υάα ΟΧά ΙÒΨ ΓΝΤ ΎΙΡ ΊΖΞ ΈΔΜ ΈΔΜ ΈΔΜ ΈΔΜ ΈΔΜ ΈΔΜ                                 ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ                                                                                                                                                                                             ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ_oΗ%eΤO9ΖάΆ³    w    s       )   UnityEngine.EventSystems.TouchInputModule      UIBehaviour    @   @       @   ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ                                                                                                                                                                                             ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ           
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+                   ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ          #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #                  ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ       <   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   <               ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    &   όΙÒΨόΙÒΩόΚΣΩόΛΣΪόΛΤΪόΜΤΫόΝΥΫόΝΦΫόΞΦάόΟΧάόΟΧέόΠΨέόΡΨήόΡΩήόÒΩίόΣΪίόΣΫΰόΤΫΰόΥάαόΥάαόΦέβόΧέβόΧήγόΨήγόΩίγόΩίδόΪΰδόΫαεόΫαεόάβζόάβζόέγηόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλ&            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΙÒΩόΚΣΩόΛΣΪόΛΤΪόΜΤΫόΝΥΫόΝΦΫόΞΦάόΟΧάόΟΧέόΠΨέόΡΨήόΡΩήόÒΩίόΣΪίόΣΫΰόΤΫΰόΥάαόΥάαόΦέβόΧέβόΧήγόΨήγόΩίγόΩίδόΪΰδόΫαεόΫαεόάβζόάβζόέγηόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΚΣΩόΛΣΪόΛΤΪόΜΤΫόΝΥΫόΝΦΫόΞΦάόΟΧάόΟΧέόΠΨέόΡΨήόΡΩήόÒΩίόΣΪίόΣΫΰόΤΫΰόΥάαόΥάαόΦέβόΧέβόΧήγόΨήγόΩίγόΩίδόΪΰδόΫαεόΫαεόάβζόάβζόέγηόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΛΣΪόΛΤΪόΜΤΫόΝΥΫόΝΦΫόέβζόΣΪίόΟΧέόΠΨέόΡΨήόΡΩήόÒΩίόΣΪίόΣΫΰόΤΫΰόΥάαόΥάαόΦέβόΧέβόΧήγόΨήγόΩίγόΩίδόΪΰδόΫαεόΫαεόάβζόάβζόέγηόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΛΤΪόΜΤΫόΝΥΫόΝΦΫόÒΩίόoqqό·½ΑόΤΫΰόΣΪΰόΤάΰόΤΫαόΦέαόΣΫΰόΤΫΰόΨίγόΧήγόΨίγόΧέβόΫαζόΨήγόΫαδόάαζόΪΰδόήγηόάβζόέγηόΰειόέγηόίδθόαηκόαζκόαζιόβηλόγθλόγηλόειμόγθκόειμόγθλόδθμόδιμόειμ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΜΤΫόΝΥΫόΝΦΫόΨήγόΔΘΚόVVVό΄ΉΌόΖΚΝόΛΠΣόΑΕΙόΘΝΠόΐΔΗόΤΫΰόΨίγόΗΚΜόΟΤΦόΛΟΣόαζκόΌΏΑόαζιόΜΠΣόΖΙΛόΰειόΗΚΝόέΰγόΦΫήόΏΒΔόήγηόήβδόΎΑΓόΔΘΙόΠΤΧόΛΝΠόΛΝΠόΣΧΩόΓΖΖόΫήβόΙΛΝόζκνόδιμόειμόεκν.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΝΥΫόΝΦΫόΞΦάό‘όlmnόYYYό¨¬―όXXXό~€όqrsό”—™όghiόΥάαό½ΒΕό[[\όnopό—ό‹όwxyό”–—ό—›όtuvό¬―°όuvwόpqqόΏΓΕόOOOόαηκόmnnόό­°²ό›όwxyόxxyό όQQQό»Ύΐό;<<ό½ΑΔόειμόεκνόζκν.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΝΦΫόΞΦάόΟΧάό_`aό”—™όTTTό–όSSSό•—™όmopό’•—όefgόΥάαό†‰‹όtuvόxyzό–όKKKό—™›όKKKό–™όrstόnopό–™όMMMό–όOOOόΒΕΗόMMMόopqόqrrό›όuvwόwxxόόKKKόΈ»ΎόΌΑΓόειμόεκνόζκνόζκν.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΞΦάόΟΧάόΟΧέόehjό€ƒ„ό<<<ό‰ό;;;ό‰ό_abό‘ό`bcόΦέβό’–™ό^__όwwxό’”–όIJJόόIJJό‘“•όlmnόsuwό‘ό222ό £ό777ό}~όAAAόΣΦΩό>>?όόefgόiijό’”•ό444ό²¶Έόειμόεκνόζκνόζκνόηλξ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΟΧάόΟΧέόΠΨέόΉΏΔόSUWό_bdό‘”όHJKό’•όnqsό ό}όΧέβόΛΡΦό]_aόFFFό‰‹ό¶»ΏόHJKό·ΌΏόόaccόΡΧΫόUWXό’–™όΉ½ΐόorsόWYZόΆ¥§όKLMό–™›ό•όrsuόMNOό€‚„όWYZόειμόεκνόζκνόζκνόηλξόηλξ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΟΧέόΠΨέόΡΨήόΡΩήόÒΩίόΣΪίόΣΫΰόΤΫΰόΥάαόΥάαόƒ‡όWXZόΧήγόΨήγόΩίγόNOPό|όΫαεόΫαεόάβζό}€‚όOPQόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΠΨέόΡΨήόΡΩήόÒΩίόΣΪίόΣΫΰόΤΫΰόΥάαόΥάαόΦέβόΚΠΥόΎΔΘόΨήγόΩίγόΩίδό΄ΈΌόΑΗΚόΫαεόάβζόάβζόΓΘΜό·»Ύόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμο.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΡΨήόΡΩήόÒΩίόΣΪίόΣΫΰόΤΫΰόΥάαόΥάαόΦέβόΧέβόΧήγόΨήγόΩίγόΩίδόΪΰδόΫαεόΫαεόάβζόάβζόέγηόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμο.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΡΩήόÒΩίόΣΪίόΣΫΰόΤΫΰόζκνόΩΰδόΦέβόΧέβόΧήγόΨήγόΩίγόΩίδόΪΰδόΫαεόΫαεόγθλόζλνόέγηόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινο.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όÒΩίόΣΪίόΣΫΰόΥάαόάβζόOOOό³ΈΌόήγηόάβηόήγηόέβζόίδθόίδηόαζκόάβζόΰζιό›όnooόίδθόεινόγηλόβθκόειμόειμόεκνόειμόζλνόηλξόζκνόινπόεκνόειμόημξόλξρόκνπόιμοόμορόινοόκνπόνπςόκξπόινο.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΣΪίόΣΫΰόΤΫΰόΥΪήό΅¤¥όWWWόΊΎΑό¤¦¨ό³¶Έό¨«­όΉΌΏό§©«ό¬―²ό›όΪήβόΉΌ½ό‚ƒ„όrstόΪίαόόΈ»ΌόΑΔΗό²³µόΈΊΌό­―°όΏΒΓό®°±ό®°±όΑΔΖόόΡΣΦόζκνόΞΡÒό—ό¤¦¨όΖΘΛό“”•όΨΫέόΠΡΣό”––όΠΣΥόκνπ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΣΫΰόΤΫΰόΥάαόz{}ό€‚όYYYό£§©όXXXό‹όqssό–™όpqqόΉ½Ώόƒ„…όόVVVό‚ƒ„όtuvό΅£¥όnopόpqqόrstόMMMόόxxyό›όxyzόyz{ό ΆόQQQό»ΎΐόέΰγόWWWό΄¶·όΡÒΤόΙΜΝό¤¥¦όyz{όttuό€όέΰγόκνπ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΤΫΰόΥάαόΥάαό\^_ό–όPPPό—™›όNNNό•—™όlmmό“–—όmnoό³¶ΈόFFFόΆ¥§όGGGόόoppό”—όpqrόqqrό’”•ό‡όPQQόlmnό”–—όttuόuvvόόGGGόΉΌ½ό¶Ή»ό>>>όrrsόDDDόΦΩΫόHHHό¶ΈΊόuvvό›όκνπόκξπ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΥάαόΥάαόΦέβό{~€όeghό222ό‡‰‹ό111ό†‰‹ό[]^όόdffόghiό†όΌΐΓό555όhjkό\]]ό‡‹ό\]^ό\]^ό‡‰ό«®°όghiόnopό‡όRSSόUUVόvwyό+++όΏΓΕόηλξό;;<ό¤¦§ό?@@ό“”–όfghόΎΑΑόddeό€‚όήβδόλξπ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΥάαόΦέβόΧέβόΚΡΦό…ό“•ό¨¬°όx{}ό©®±ό’–ό¨«­ό‰‹όΕΚΞόy{}όΔΚΝό«―²ό“–ό“–™ό­±³ό”—™ό”™ό®²΄ό•ό|~€όΧΫήό―³µό£¦¨ό}€ό±΄·ό‰‹όηλξόηλξόΝΠÒό~€όΐΓΕόΫίαό‹ό ό>>?όVWXόΠΣΥόλξρ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΦέβόΧέβόΧήγόΨήγόΩίγόΩίδόΪΰδόΫαεόΫαεόάβζό…όUWXόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόΑΔΖό΄¶Έόλξρόλξρ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΧέβόΧήγόΨήγόΩίγόΩίδόΪΰδόΫαεόΫαεόάβζόάβζόέγηόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΧήγόΨήγόΩίγόΩίδόΪΰδόΫαεόΫαεόάβζόάβζόέγηόήγηόήδθόβηκόδιλόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόηλξόιμοόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΨήγόΩίγόΩίδόΪΰδόΫαεόΫαεόάβζόάβζόέγηόήγηόήδθόίδθό»ΎΑό¨«­όαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόΌΎΑό«­―όζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΩίγόΩίδόΪΰδόβηκόβηκόβηκόζλνόΰειόκξπόθμοόαζκόινοό Άόuvwόηλξόλορόμορόζινόκξπόνπσόκξπόειμό’”–όyyzόορσόινπόλορόπστόλορόνπςόπςτόινοόςτφόμοςόμπςόςτυόπςυόλξρόμορόμορόμορόμορ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΩίδόΪΰδόΫαεόό•™ό§©ªόxyzόΚΝΠόYYYόpqrόΘΜΞόsttόghhόxyzό όoppόhiiόΑΔΗόόaaaό‡‰όεκνό’”•όYYYόaabόΖΗΙό¬­­όeffό΄µ·ό όmmnόκνπόGGGόΒΕΖόΔΖΗόmmnό‹όνπςόμορόμορόμορόμος.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΪΰδόΫαεόΫαεό‘ό›όjkkόxxyό{}}όtuuό™ό›όUUUό΅όyzzόxxyό όTTTό¤¦¨όMMMό›ό—™όζκνό’“•όvwwόό‚‚ό]]]ό ΅ΆόYYYό όrssόμξρόRRRόΗΘΚό}~~ό ΅ΆόKKKόΘΛΜόμορόμορόμοςόνπς.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΫαεόΫαεόάβζό’“όƒ„…όccdόmnoόwyzό}ό€όlmnό===ό—™όmnnόjklό”–—ό@@@ό¤§©ό777όΒΔΖό333όζκνόόmnoό™›όdefόCCDό—™όCDDό“•–όSTTόΟÒΣόIIIό›όghhό™›ό666όΕΗΙόμορόμοςόνπςόνπς.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΫαεόάβζόάβζό‘όDDDό’”όbcdόΗΝΟόABCό556όΘΜΠόYZ[όDEEόPQRόOPQόƒ…όό²µ·ό‚ƒό677όrtvόηλξόƒόEFFό+++ό§©«όό556ό›ό‚ƒ…όPQRόSTTό!!!όQRSό’“όCDDόhijόμορόμοςόνπςόνπςόνπς.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όάβζόάβζόέγηό„…ό?@@ό²µΈόRSTόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπς.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όάβζόέγηόήγηόª―²όΆ¥όΕΚΝό’•όαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπς.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όέγηόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπς.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπς.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπς/            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπς1            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπς3            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςχθλν1            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορθΩάί.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορόιμοήΝΠΣ*            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορόιμοόζιμΞΊΎΒ&            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορόιμοόειμόΰειΏ¥ª­!            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορόιμοόειμόΰειόΪΰε«”—            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορόιμοόειμόΰειόΪΰεόΥάα–z~            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορόιμοόειμόΰειόΪΰεόΥάαόΟΧά|_cf            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορόιμοόειμόΰειόΪΰεόΥάαόΟΧάόΙÒΨb:=?            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορόιμοόειμόΰειόΪΰεόΥάαόΟΧάόΚΣΩϊΒΜΣH
+            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορόιμοόειμόΰειόΪΰεόΥάαόΟΧάόΙÒΨόΕΞΥλ±ΌΓ?   	            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όζκνόζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορόιμοόειμόΰειόΪΰεόΥάαόΟΧάόΙÒΨόΓΝΤόΐΚÒΫ΅¬³8               ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όζκνόηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορόιμοόειμόΰειόΪΰεόΥάαόΟΧάόΙÒΨόΓΝΤόΎΙΡόΌΗΟΘ 2               ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όηλξόηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορόιμοόειμόΰειόΪΰεόΥάαόΟΧάόΙÒΨόΓΝΤόΎΙΡόΊΖΞόΉΕΝµ~‡,               ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όηλξόθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορόιμοόειμόΰειόΪΰεόΥάαόΟΧάόΙÒΨόΓΝΤόΎΙΡόΊΖΞόΈΔΜόΉΔΜmty%               ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όθμξόθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορόιμοόειμόΰειόΪΰεόΥάαόΟΧάόΙÒΨόΓΝΤόΎΙΡόΊΖΞόΈΔΜόΈΔΜόΈΔΜ}[ae               ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όθμοόιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορόιμοόειμόΰειόΪΰεόΥάαόΟΧάόΙÒΨόΓΝΤόΐΚÒόΏΚΡόΑΛÒόΕΟΥόΘΡΧόΔΞΥTBFH               ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    ,   όιμοόινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόμορόιμοόειμόΰειόΫαζόΧήγόΤΫΰόΡΩήόΟΧάόΝΦάψΚΣΩήΈΐΕΏ §¬„v`dgC%                  ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    &   όινοόινοόκνπόκνπόκξπόλξπόλξρόλξρόμορόμορόμορόμορόμοςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόνπςόξρςόνπςόμξρόινοόζκξόγηλόΰειΰΙΟΡΛ³ΉΌ·Ά¥”{€„kNQSC   :   3   +   "                        ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ       όνπςόπςτόπςτόπστόπστόπσυόπσυόρσυόρσυόρσυόρσυόρσυόςτυόςτυόςτυόςτυόςτυόςτυόςτυόςτυόςτυόςτυξκμξΨΩΪά»ΎΐΒΆ¤‚„†bVXZ=   5   0   +   %                                          ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ          #   #   #   #   #   #   #   #   #   #   #   $   $   $   %   %   &   &   '   (   (   '   "               
+                                                      ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ                             μορ μορ μορ μορ μος νπς νπς νπς νπς νπς νπς νπς νπς νπς νπς μορ ιμο ειμ ΰει Ϊΰε Υάα ΟΧά ΙÒΨ ΓΝΤ ΎΙΡ ΊΖΞ ΈΔΜ ΈΔΜ ΈΔΜ ΈΔΜ ΈΔΜ ΈΔΜ                                 ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ                                                                                                                                                                                             ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ_oΗ%eΤO9ΖάΆ³    ϊ‘    s       $   UnityEngine.EventSystems.UIBehaviour   VerticalLayoutGroup    @   @       @   ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ                                                                                                                                                                                             ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ           
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+                   ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ          #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #                  ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ       <   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   N   <               ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    &   όΙÒΨόΙÒΩόΚΣΩόΛΣΪόΛΤΪόΜΤΫόΝΥΫόΝΦΫόΞΦάόΟΧάόΟΧέόΠΨέόΡΨήόΡΩήόÒΩίόΣΪίόΣΫΰόΤΫΰόΥάαόΥάαόΦέβόΧέβόΧήγόΨήγόΩίγόΩίδόΪΰδόΫαεόΫαεόάβζόάβζόέγηόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλ&            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΙÒΩόΚΣΩόΛΣΪόΛΤΪόΜΤΫόΝΥΫόΝΦΫόΞΦάόΟΧάόΟΧέόΠΨέόΡΨήόΡΩήόÒΩίόΣΪίόΣΫΰόΤΫΰόΥάαόΥάαόΦέβόΧέβόΧήγόΨήγόΩίγόΩίδόΪΰδόΫαεόΫαεόάβζόάβζόέγηόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΚΣΩόΛΣΪόΛΤΪόΜΤΫόΝΥΫόΝΦΫόΞΦάόΟΧάόΟΧέόΠΨέόΡΨήόΡΩήόÒΩίόΣΪίόΣΫΰόΤΫΰόΥάαόΥάαόΦέβόΧέβόΧήγόΨήγόΩίγόΩίδόΪΰδόΫαεόΫαεόάβζόάβζόέγηόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΛΣΪόΛΤΪόΜΤΫόΝΥΫόΝΦΫόέβζόΣΪίόΟΧέόΠΨέόΡΨήόΡΩήόÒΩίόΣΪίόΣΫΰόΤΫΰόΥάαόΥάαόΦέβόΧέβόΧήγόΨήγόΩίγόΩίδόΪΰδόΫαεόΫαεόάβζόάβζόέγηόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΛΤΪόΜΤΫόΝΥΫόΝΦΫόÒΩίόoqqό·½ΑόΤΫΰόΣΪΰόΤάΰόΤΫαόΦέαόΣΫΰόΤΫΰόΨίγόΧήγόΨίγόΧέβόΫαζόΨήγόΫαδόάαζόΪΰδόήγηόάβζόέγηόΰειόέγηόίδθόαηκόαζκόαζιόβηλόγθλόγηλόειμόγθκόειμόγθλόδθμόδιμόειμ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΜΤΫόΝΥΫόΝΦΫόΨήγόΔΘΚόVVVό΄ΉΌόΖΚΝόΛΠΣόΑΕΙόΘΝΠόΐΔΗόΤΫΰόΨίγόΗΚΜόΟΤΦόΛΟΣόαζκόΌΏΑόαζιόΜΠΣόΖΙΛόΰειόΗΚΝόέΰγόΦΫήόΏΒΔόήγηόήβδόΎΑΓόΔΘΙόΠΤΧόΛΝΠόΛΝΠόΣΧΩόΓΖΖόΫήβόΙΛΝόζκνόδιμόειμόεκν.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΝΥΫόΝΦΫόΞΦάό‘όlmnόYYYό¨¬―όXXXό~€όqrsό”—™όghiόΥάαό½ΒΕό[[\όnopό—ό‹όwxyό”–—ό—›όtuvό¬―°όuvwόpqqόΏΓΕόOOOόαηκόmnnόό­°²ό›όwxyόxxyό όQQQό»Ύΐό;<<ό½ΑΔόειμόεκνόζκν.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΝΦΫόΞΦάόΟΧάό_`aό”—™όTTTό–όSSSό•—™όmopό’•—όefgόΥάαό†‰‹όtuvόxyzό–όKKKό—™›όKKKό–™όrstόnopό–™όMMMό–όOOOόΒΕΗόMMMόopqόqrrό›όuvwόwxxόόKKKόΈ»ΎόΌΑΓόειμόεκνόζκνόζκν.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΞΦάόΟΧάόΟΧέόehjό€ƒ„ό<<<ό‰ό;;;ό‰ό_abό‘ό`bcόΦέβό’–™ό^__όwwxό’”–όIJJόόIJJό‘“•όlmnόsuwό‘ό222ό £ό777ό}~όAAAόΣΦΩό>>?όόefgόiijό’”•ό444ό²¶Έόειμόεκνόζκνόζκνόηλξ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΟΧάόΟΧέόΠΨέόΉΏΔόSUWό_bdό‘”όHJKό’•όnqsό ό}όΧέβόΛΡΦό]_aόFFFό‰‹ό¶»ΏόHJKό·ΌΏόόaccόΡΧΫόUWXό’–™όΉ½ΐόorsόWYZόΆ¥§όKLMό–™›ό•όrsuόMNOό€‚„όWYZόειμόεκνόζκνόζκνόηλξόηλξ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΟΧέόΠΨέόΡΨήόΡΩήόÒΩίόΣΪίόΣΫΰόΤΫΰόΥάαόΥάαόƒ‡όWXZόΧήγόΨήγόΩίγόNOPό|όΫαεόΫαεόάβζό}€‚όOPQόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΠΨέόΡΨήόΡΩήόÒΩίόΣΪίόΣΫΰόΤΫΰόΥάαόΥάαόΦέβόΚΠΥόΎΔΘόΨήγόΩίγόΩίδό΄ΈΌόΑΗΚόΫαεόάβζόάβζόΓΘΜό·»Ύόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμο.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΡΨήόΡΩήόÒΩίόΣΪίόΣΫΰόΤΫΰόΥάαόΥάαόΦέβόΧέβόΧήγόΨήγόΩίγόΩίδόΪΰδόΫαεόΫαεόάβζόάβζόέγηόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμο.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΡΩήόÒΩίόΣΪίόΣΫΰόΤΫΰόζκνόΩΰδόΦέβόΧέβόΧήγόΨήγόΩίγόΩίδόΪΰδόΫαεόΫαεόγθλόζλνόέγηόήγηόήδθόίδθόίεθόΰειόαζιόαζκόβηκόβηκόγηλόγθλόδθμόδιμόειμόεκνόζκνόζκνόηλξόηλξόθμξόθμοόιμοόινο.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όÒΩίόΣΪίόΣΫΰόΥάαόάβζόOOOό³ΈΌόήγηόάβηόήγηόέβζόίδθόίδηόαζκόάβζόΰζιό›όnooόίδθόεινόγηλόβθκόειμόειμόεκνόειμόζλνόηλξόζκνόινπόεκνόειμόημξόλξρόκνπόιμοόμορόινοόκνπόνπςόκξπόινο.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΣΪίόΣΫΰόΤΫΰόΥΪήό΅¤¥όWWWόΊΎΑό¤¦¨ό³¶Έό¨«­όΉΌΏό§©«ό¬―²ό›όΪήβόΉΌ½ό‚ƒ„όrstόΪίαόόΈ»ΌόΑΔΗό²³µόΈΊΌό­―°όΏΒΓό®°±ό®°±όΑΔΖόόΡΣΦόζκνόΞΡÒό—ό¤¦¨όΖΘΛό“”•όΨΫέόΠΡΣό”––όΠΣΥόκνπ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΣΫΰόΤΫΰόΥάαόz{}ό€‚όYYYό£§©όXXXό‹όqssό–™όpqqόΉ½Ώόƒ„…όόVVVό‚ƒ„όtuvό΅£¥όnopόpqqόrstόMMMόόxxyό›όxyzόyz{ό ΆόQQQό»ΎΐόέΰγόWWWό΄¶·όΡÒΤόΙΜΝό¤¥¦όyz{όttuό€όέΰγόκνπ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΤΫΰόΥάαόΥάαό\^_ό–όPPPό—™›όNNNό•—™όlmmό“–—όmnoό³¶ΈόFFFόΆ¥§όGGGόόoppό”—όpqrόqqrό’”•ό‡όPQQόlmnό”–—όttuόuvvόόGGGόΉΌ½ό¶Ή»ό>>>όrrsόDDDόΦΩΫόHHHό¶ΈΊόuvvό›όκνπόκξπ.            ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ ÿÿÿ    .   όΥάαόΥάαόΦέβό{~€όeghό222ό‡‰‹ό111ό†‰‹ό[]^όόdffόghiό†όΌΐΓό555όhjkό\]]ό‡‹ό\]^ό\]^ό‡‰ό«®°όghiόnopό‡όRSSόUUVόvwyό+++όΏΓΕόηλξό;;<ό¤¦§ό?@@ό“”–όfghόΎΑΑόddeό€‚  
+m  (D          2018.3.7f1 ώÿÿÿ      ÿÿ’3$ψΜuρμ²e+ Ν=   ^          7  €ÿÿÿÿ     €    ¦ €² €           Π  €               ¦ €               ¦ €               ¦ €#               ¦ €+               H €3   ÿÿÿÿ    €   1  €1  €ÿÿÿÿ   @    ή  € €   	        Q  €j  €   
+        H €<   ÿÿÿÿ    €   1  €1  €ÿÿÿÿ   @    ή  € €           Q  €j  €           Υ €I   ÿÿÿÿ    €   1  €1  €ÿÿÿÿ    ΐ    ή  € €            H €j  €ÿÿÿÿ    €   1  €1  €ÿÿÿÿ   @    ή  € €           Q  €j  €           ™ €P             AssetMetaData guid data[0] data[1] data[2] data[3] pathName originalName labels assetStoreRef    ÿÿ«\sέΜ–Ò‡φi”ί/   ½          7  €ÿÿÿÿ     €    ¦ €² €              E €           ή  €)          €   . €2          €   ;   a €           ή  €)          €   . €2          €   † €r €           ή  €)      	    €   . €2      
+    €   H €« €ÿÿÿÿ   €  1  €1  €ÿÿÿÿ   @   ή  € €          Q  €j  €          ρ  €P   ÿÿÿÿ    ΐ   1  €1  €ÿÿÿÿ    €    ή  € €             €j  €ÿÿÿÿ    €    b   ›  €ÿÿÿÿ    €    H €x   ÿÿÿÿ    €   1  €1  €ÿÿÿÿ   @    ή  € €           Q  €j  €           H €}   ÿÿÿÿ    €   1  €1  €ÿÿÿÿ   @    ή  € €           Q  €j  €           H €†   ÿÿÿÿ    €   1  €1  €ÿÿÿÿ   @    ή  € €           Q  €j  €           y €
+ €             ή  €)      !    €   . €2      "    €   H €‹   ÿÿÿÿ#   €   1  €1  €ÿÿÿÿ$   @    ή  € €   %        Q  €j  €   &        H €–   ÿÿÿÿ'   €   1  €1  €ÿÿÿÿ(   @    ή  € €   )        Q  €j  €   *        H €¨   ÿÿÿÿ+   €   1  €1  €ÿÿÿÿ,   @    ή  € €   -        Q  €j  €   .      TextScriptImporter PPtr<EditorExtension> m_FileID m_PathID PPtr<PrefabInstance> m_ExternalObjects SourceAssetIdentifier type assembly name m_UserData m_AssetBundleName m_AssetBundleVariant 1    ÿÿeFΌ_1Ch_ή‰$   =      O €7  €ÿÿÿÿ     €    ¦ €² €               E €           ή  €          €   . €          €   (   a €           ή  €          €   . €          €   † €r €           ή  €      	    €   . €      
+    €   H €« €ÿÿÿÿ   €  1  €1  €ÿÿÿÿ   @   ή  € €          Q  €j  €          H €κ €ÿÿÿÿ   €  1  €1  €ÿÿÿÿ   @   ή  € €          Q  €j  €        PPtr<EditorExtension> m_FileID m_PathID PPtr<PrefabInstance>                  X              X   <       ΔJ        ¬                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ² Ψ’M±€‰Ί…ΛζΠ0   Packages/com.unity.package-manager-ui/LICENSE.md                                                                                                                          LICENSE s  **Unity Companion License ("_License_")**
+
+Software Copyright Β© 2018 Unity Technologies ApS** **
+
+Unity Technologies ApS ("**_Unity_**") grants to you a worldwide, non-exclusive, no-charge, and royalty-free copyright license to reproduce, prepare derivative works of, publicly display, publicly perform, sublicense, and distribute the software that is made available under this License (β€**_Software_**β€), subject to the following terms and conditions:
+
+1. *Unity Companion Use Only*. Exercise of the license granted herein is limited to exercise for the creation, use, and/or distribution of applications, software, or other content pursuant to a valid Unity content authoring and rendering engine software license ("**_Engine License_**"). That means while use of the Software is not limited to use in the software licensed under the Engine License, the Software may not be used for any purpose other than the creation, use, and/or distribution of Engine License-dependent applications, software, or other content. No other exercise of the license granted herein is permitted, and in no event may the Software be used for competitive analysis or to develop a competing product or service.
+
+2. *No Modification of Engine License*. Neither this License nor any exercise of the license granted herein modifies the Engine License in any way.
+
+3. *Ownership & Grant Back to You*.
+
+  3.1. You own your content. In this License, "derivative works" means derivatives of the Software itself--works derived only from the Software by you under this License (for example, modifying the code of the Software itself to improve its efficacy); β€derivative worksβ€ of the Software do not include, for example, games, apps, or content that you create using the Software. You keep all right, title, and interest to your own content.
+
+  3.2. Unity owns its content. While you keep all right, title, and interest to your own content per the above, as between Unity and you, Unity will own all right, title, and interest to all intellectual property rights (including patent, trademark, and copyright) in the Software and derivative works of the Software, and you hereby assign and agree to assign all such rights in those derivative works to Unity.
+
+  3.3. You have a license to those derivative works. Subject to this License, Unity grants to you the same worldwide, non-exclusive, no-charge, and royalty-free copyright license to derivative works of the Software you create as is granted to you for the Software under this License.
+
+4. *Trademarks*. You are not granted any right or license under this License to use any trademarks, service marks, trade names, products names, or branding of Unity or its affiliates ("**_Trademarks_**"). Descriptive uses of Trademarks are permitted; see, for example, Unityβ€™s Branding Usage Guidelines at[ https://unity3d.com/public-relations/brand](https://unity3d.com/public-relations/brand).
+
+5. *Notices & Third-Party Rights*. This License, including the copyright notice associated with the Software, must be provided in all substantial portions of the Software and derivative works thereof (or, if that is impracticable, in any other location where such notices are customarily placed). Further, if the Software is accompanied by a Unity "third-party notices" or similar file, you acknowledge and agree that software identified in that file is governed by those separate license terms.
+
+6. *DISCLAIMER, LIMITATION OF LIABILITY*. THE SOFTWARE AND ANY DERIVATIVE WORKS THEREOF IS PROVIDED ON AN "AS IS" BASIS, AND IS PROVIDED WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND/OR NONINFRINGEMENT. IN NO EVENT SHALL ANY COPYRIGHT HOLDER OR AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES (WHETHER DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL, INCLUDING PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, LOSS OF USE, DATA, OR PROFITS, AND BUSINESS INTERRUPTION), OR OTHER LIABILITY WHATSOEVER, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM OR OUT OF, OR IN CONNECTION WITH, THE SOFTWARE OR ANY DERIVATIVE WORKS THEREOF OR THE USE OF OR OTHER DEALINGS IN SAME, EVEN WHERE ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+7. *USE IS ACCEPTANCE and License Versions*. Your receipt and use of the Software constitutes your acceptance of this License and its terms and conditions. Software released by Unity under this License may be modified or updated and the License with it; upon any such modification or update, you will comply with the terms of the updated License for any use of any of the Software under the updated License.
+
+8. *Use in Compliance with Law and Termination*. Your exercise of the license granted herein will at all times be in compliance with applicable law and will not infringe any proprietary rights (including intellectual property rights); this License will terminate immediately on any breach by you of this License.
+
+9. *Severability*. If any provision of this License is held to be unenforceable or invalid, that provision will be enforced to the maximum extent possible and the other provisions will remain in full force and effect.
+
+10. *Governing Law and Venue*. This License is governed by and construed in accordance with the laws of Denmark, except for its conflict of laws rules; the United Nations Convention on Contracts for the International Sale of Goods will not apply. If you reside (or your principal place of business is) within the United States, you and Unity agree to submit to the personal and exclusive jurisdiction of and venue in the state and federal courts located in San Francisco County, California concerning any dispute arising out of this License ("**_Dispute_**"). If you reside (or your principal place of business is) outside the United States, you and Unity agree to submit to the personal and exclusive jurisdiction of and venue in the courts located in Copenhagen, Denmark concerning any Dispute.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                              ®οÿ ®οÿ ­ξΏ ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ­ξΏ ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ­ξΏ ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ­ξΏ ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ­ξΏ ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο0 ―ο@ ―ο@ ―ο@ ―ο@ ―ο@ ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ­ξΏ ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο0 ―ο@ ―ο@ ―ο@ ―ο@ ―ο@ ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξΏ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ―οP ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ­ξΏ ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξί ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ―ο@ ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ―ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®ο  ®ο  ®ο  ®ο  ®ο  ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ®ο  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξ  ­ξΏ ®οÿ ®οÿ ®οÿ ®οÿ ®οÿ ­ξ 
